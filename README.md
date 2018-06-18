@@ -1,6 +1,6 @@
 # OneSelf
 
-## Setup:
+### Setup:
 
 The initial setup is intended to be very minimal with virtually no steps until
 you begin integrating your own data.
@@ -42,3 +42,8 @@ the masses. We should fight for data availability and build solutions for
 ourselves to track new metrics and enhance the insights of others. The key to
 immortality may very well already exist in the collective insights we can gather
 through data collection and analysis.
+
+### Contributing
+Please feel free to open an issue or PR if you've found a bug. If you're looking
+to implement a feature, please open an issue before creating a PR so I can
+review it and make sure it's something that should be added.
