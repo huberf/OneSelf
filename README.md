@@ -34,6 +34,7 @@ you begin integrating your own data.
 * RescueTime
 * Trakt.tv
 * Welltory
+* Moves
 
 ### Philosophy
 Health science and productivity are bound to improve when millions of
