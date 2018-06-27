@@ -12,6 +12,11 @@ config = loadConfig.getConfig()
 user_name = config['keys']['myfitnesspal']['username']
 client = myfitnesspal.Client(user_name)
 
+to_save = {
+        'data': [],
+        'count': 0
+        }
+
 lastSync = datetime.datetime(2013, 3, 2)
 current = lastSync
 today = datetime.datetime.now()
@@ -21,3 +26,10 @@ while current <= today:
   lunch = day.meals[1]
   dinner = day.meals[2]
   current += datetime.timedelta(days=1)
+  to_save['data'] += [{
+      'date': current,
+      'breakfast': breakfast,
+      'lunch': lunch,
+      'dinner': dinner
+      }]
+  to_save['count'] += 1
