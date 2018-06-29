@@ -19,28 +19,33 @@ to_save = {
         }
 
 try:
-    data_file = open('records/myfitnesspal.json')
+    data_file = open('records/myfitnesspal-food.json')
     contents = data_file.read()
     json_data = json.loads(contents)
     to_save = json_data
+    data_file.close()
 except:
     pass
 
-lastSync = datetime.datetime(2013, 3, 2)
+lastSync = datetime.datetime(2018, 6, 28)
 current = lastSync
 today = datetime.datetime.now()
 while current <= today:
+  print('Syncing data for {0}'.format(current))
   day = client.get_date(current.year, current.month, current.day)
   breakfast = day.meals[0]
   lunch = day.meals[1]
   dinner = day.meals[2]
   current += datetime.timedelta(days=1)
   to_save['data'] += [{
-      'date': current,
+      'date': current.strftime("%Y-%m-%d %H:%M:%S"),
       'breakfast': breakfast,
       'lunch': lunch,
       'dinner': dinner
       }]
   to_save['count'] += 1
 
+data_file = open('records/myfitnesspal-food.json', 'w')
+data_file.write(json.dumps(to_save))
+data_file.close()
 
