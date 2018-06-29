@@ -1,5 +1,6 @@
 import sys
 import datetime
+import json
 from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 import utils.loadConfig
@@ -17,6 +18,14 @@ to_save = {
         'count': 0
         }
 
+try:
+    data_file = open('records/myfitnesspal.json')
+    contents = data_file.read()
+    json_data = json.loads(contents)
+    to_save = json_data
+except:
+    pass
+
 lastSync = datetime.datetime(2013, 3, 2)
 current = lastSync
 today = datetime.datetime.now()
@@ -33,3 +42,5 @@ while current <= today:
       'dinner': dinner
       }]
   to_save['count'] += 1
+
+
