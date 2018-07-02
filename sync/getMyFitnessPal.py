@@ -44,19 +44,36 @@ while current <= today:
           },
       'breakfast': {
           'totals': breakfast.totals,
-          'entries': breakfast.entries
+          'entries': []
           },
       'lunch': {
           'totals': lunch.totals,
-          'entries': lunch.entries
+          'entries': []
           },
       'dinner': {
-          'totals': dinner,
-          'entires': dinner.entries
+          'totals': dinner.totals,
+          'entries': []
           }
       }
+  for i in breakfast.entries:
+      new_entry['breakfast']['entries'] += [{
+          'name': i.name,
+          'totals': i.totals
+          }]
+  for i in lunch.entries:
+      new_entry['lunch']['entries'] += [{
+          'name': i.name,
+          'totals': i.totals
+          }]
+  for i in dinner.entries:
+      new_entry['dinner']['entries'] += [{
+          'name': i.name,
+          'totals': i.totals
+          }]
   to_save['data'] += [new_entry]
   to_save['count'] += 1
+
+print(to_save)
 
 data_file = open('records/myfitnesspal-food.json', 'w')
 data_file.write(json.dumps(to_save))
