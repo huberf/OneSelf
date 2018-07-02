@@ -37,12 +37,25 @@ while current <= today:
   lunch = day.meals[1]
   dinner = day.meals[2]
   current += datetime.timedelta(days=1)
-  to_save['data'] += [{
+  new_entry = {
       'date': current.strftime("%Y-%m-%d %H:%M:%S"),
-      'breakfast': breakfast,
-      'lunch': lunch,
-      'dinner': dinner
-      }]
+      'day': {
+          'totals': day.totals
+          },
+      'breakfast': {
+          'totals': breakfast.totals,
+          'entries': breakfast.entries
+          },
+      'lunch': {
+          'totals': lunch.totals,
+          'entries': lunch.entries
+          },
+      'dinner': {
+          'totals': dinner,
+          'entires': dinner.entries
+          }
+      }
+  to_save['data'] += [new_entry]
   to_save['count'] += 1
 
 data_file = open('records/myfitnesspal-food.json', 'w')
