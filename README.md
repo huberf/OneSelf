@@ -35,6 +35,7 @@ you begin integrating your own data.
 * Trakt.tv
 * Welltory
 * Moves
+* Gyroscope
 
 ### Philosophy
 Health science and productivity are bound to improve when millions of

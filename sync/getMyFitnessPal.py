@@ -27,10 +27,10 @@ try:
 except:
     pass
 
-lastSync = datetime.datetime(2018, 6, 28)
+lastSync = datetime.datetime(2018, 6, 1)
 current = lastSync
 today = datetime.datetime.now()
-while current <= today:
+while current < today:
   print('Syncing data for {0}'.format(current))
   day = client.get_date(current.year, current.month, current.day)
   breakfast = day.meals[0]
