@@ -37,8 +37,12 @@ while current < today:
   lunch = day.meals[1]
   dinner = day.meals[2]
   current += datetime.timedelta(days=1)
+  empty = False
+  if day.totals == 0:
+      empty = True
   new_entry = {
       'date': current.strftime("%Y-%m-%d %H:%M:%S"),
+      'empty': empty,
       'day': {
           'totals': day.totals
           },
