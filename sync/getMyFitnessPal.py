@@ -27,7 +27,10 @@ try:
 except:
     pass
 
-lastSync = datetime.datetime(2018, 6, 1)
+lastSync = datetime.datetime.strptime(
+            config['keys']['myfitnesspal']['last_sync'],
+            '%Y-%m-%d'
+        )
 current = lastSync
 today = datetime.datetime.now()
 while current < today:
@@ -36,7 +39,6 @@ while current < today:
   breakfast = day.meals[0]
   lunch = day.meals[1]
   dinner = day.meals[2]
-  current += datetime.timedelta(days=1)
   empty = False
   if day.totals == 0:
       empty = True
@@ -76,10 +78,15 @@ while current < today:
           }]
   to_save['data'] += [new_entry]
   to_save['count'] += 1
+  current += datetime.timedelta(days=1)
 
+print('Displaying contents to save in case of crash:')
 print(to_save)
 
 data_file = open('records/myfitnesspal-food.json', 'w')
 data_file.write(json.dumps(to_save))
 data_file.close()
-
+# Write new last sync date
+lastSync = current.strftime('%Y-%m-%d')
+config['keys']['myfitnesspal']['last_sync'] = lastSync
+loadConfig.setConfig(config)
