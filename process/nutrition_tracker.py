@@ -19,14 +19,17 @@ except:
 
 def current_health(data):
     day_data = data['data']
-    top = len(day_data) - 1
+    top = len(day_data)
     bottom = len(day_data) - 8
+    if bottom < 0:
+        bottom = 0
     last_seven_days = day_data[bottom:top]
     # Check how you compare to recommended nutrient values
     calorie_sum = 0
     for i in last_seven_days:
         calorie_sum += i['day']['totals']['calories']
-    calorie_avg = calorie_sum / 7.0
+    days = top - bottom
+    calorie_avg = calorie_sum / days
     print('You averaged {0} calories per day in the last week.'.format(calorie_avg))
     return
 
