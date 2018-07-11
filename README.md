@@ -36,6 +36,7 @@ you begin integrating your own data.
 * Welltory
 * Moves
 * Gyroscope
+* Goodreads
 
 ### Philosophy
 Health science and productivity are bound to improve when millions of
