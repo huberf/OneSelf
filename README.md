@@ -25,6 +25,16 @@ you begin integrating your own data.
 4. Test the setup by running `python3 process/mint_finance.py`. It should print
    useful metrics and give an overview of its general capabilities.
 
+### WakaTime
+
+You have multiple options. One is to export your data and the other is to use
+the API but the API requires a subscription to retreive historical data and is
+currently unsupported by OneSelf.
+Data export:
+1. Visit [https://wakatime.com/settings/account](https://wakatime.com/settings/account)
+2. Scroll down to the export section and follow the prompts.
+3. Place the export file in `records/` and name it `wakatime-export.json`.
+
 ### Coming soon(er or later)
 * Garmin
 * Nomie
