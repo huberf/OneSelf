@@ -6,6 +6,7 @@ sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 import utils.loadConfig
 
 from stravalib.client import Client
+from stravalib import unithelper
 from utils import loadConfig
 
 config = loadConfig.getConfig()
@@ -44,5 +45,13 @@ data_proxy = StravaData(athlete_id, access_token)
 athlete_data = data_proxy.getAthlete()
 activities = data_proxy.getActivities()
 print(athlete_data)
+to_save = {
+        'activities': [],
+        'id': athlete_data.id,
+        'first_name': athlete_data.firstname,
+        'last_name': athlete_data.lastname,
+        'count': 0
+        }
+activities_packaged = []
 for i in activities:
     print(i)
