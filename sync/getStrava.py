@@ -40,10 +40,19 @@ class StravaData:
         activities = self.client.get_activities()
         return activities
 
+    def getActivity(self, id):
+        activity = self.client.get_activity(id)
+        return activity
+
+    def getActivityStreams(self, id, types):
+        streams = self.client.get_activity_streams(id, types=types, resolution='medium')
+        return streams
+
 data_proxy = StravaData(athlete_id, access_token)
 
 athlete_data = data_proxy.getAthlete()
 activities = data_proxy.getActivities()
+print(activities)
 print(athlete_data)
 to_save = {
         'activities': [],
@@ -52,6 +61,47 @@ to_save = {
         'last_name': athlete_data.lastname,
         'count': 0
         }
+
+already_processed = {}
+try:
+    save_file = open('records/strava-data.json')
+    save_data = json.loads(save_file.read())
+    to_save = save_data
+    save_file.close()
+    for i in save_data['activities']:
+        already_processed[i['id']] = True
+except:
+    pass
+
 activities_packaged = []
+record = 1
 for i in activities:
-    print(i)
+    print('Processing activity {0}'.format(record))
+    try:
+        already_processed[i.id] # If this succeeds it's already processed
+    except:
+        activity = data_proxy.getActivity(i.id)
+        types = ['time', 'latlng', 'altitude', 'heartrate', 'temp']
+        streams = data_proxy.getActivityStreams(i.id, types)
+        to_add = {
+                'id': i.id,
+                'name': i.name,
+                'distance': float(unithelper.miles(activity.distance)),
+                }
+        for i in streams:
+            try:
+                to_add[i] = streams[i].data
+            except:
+                print('No {0} data for this activity'.format(i))
+        activities_packaged += [to_add]
+    record += 1
+
+to_save['activities'] += activities_packaged
+to_save['count'] = len(to_save['activities'])
+
+print('Saving...')
+print(to_save)
+save_file = open('records/strava-data.json', 'w')
+save_file.write(json.dumps(to_save))
+save_file.close()
+print('Done.')
