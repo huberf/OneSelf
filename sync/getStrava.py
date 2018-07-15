@@ -73,6 +73,11 @@ try:
 except:
     pass
 
+def save(data):
+    save_file = open('records/strava-data.json', 'w')
+    save_file.write(json.dumps(data, indent=4))
+    save_file.close()
+
 activities_packaged = []
 record = 1
 for i in activities:
@@ -87,21 +92,20 @@ for i in activities:
                 'id': i.id,
                 'name': i.name,
                 'distance': float(unithelper.miles(activity.distance)),
+                'date': str(i.start_date)
                 }
         for i in streams:
             try:
                 to_add[i] = streams[i].data
             except:
                 print('No {0} data for this activity'.format(i))
-        activities_packaged += [to_add]
+        to_save['activities'] += [to_add]
+        to_save['count'] = len(to_save['activities'])
+        save(to_save)
     record += 1
 
-to_save['activities'] += activities_packaged
-to_save['count'] = len(to_save['activities'])
 
 print('Saving...')
 print(to_save)
-save_file = open('records/strava-data.json', 'w')
-save_file.write(json.dumps(to_save))
-save_file.close()
+save(to_save)
 print('Done.')
