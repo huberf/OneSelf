@@ -17,6 +17,14 @@ except:
     print('Make sure you\'ve synced MyFitnessPal nutrition data')
     sys.exit()
 
+BASELINE_METRICS = {
+    'carbohydrates': 300,
+    'fat': 65,
+    'protein': 50,
+    'sodium': 2.4,
+    'sugar': 0
+}
+
 def current_health(data):
     day_data = data['data']
     top = len(day_data)
