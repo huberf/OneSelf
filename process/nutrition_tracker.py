@@ -59,14 +59,16 @@ def recent_changes(data):
     for i in BASELINE_METRICS.keys():
         recent_norms[i] = 0
         historical_norms[i] = 0
-    for i in last_seven_days:
-        for j in recent_norms['keys']:
+    for i in last_week:
+        for j in recent_norms.keys():
             recent_norms[j] += i['day']['totals'][j]
     for i in three_weeks_before:
-        for j in historical_norms['keys']:
+        for j in historical_norms.keys():
             historical_norms[j] += i['day']['totals'][j]
     for i in recent_norms.keys():
-        print('Recently you had {0} of {1} vs. historically having {2}'.format(recent_norms[i]/7.0, i, historical_norms[i]/(7.0*3)))
+        recently = recent_norms[i]/7.0
+        historically = historical_norms[i]/(7.0*3)
+        print('Recently you had {0} {1} vs. historically having {2}'.format(recently, i, historically))
     return
 
 def longterm_health(data):
