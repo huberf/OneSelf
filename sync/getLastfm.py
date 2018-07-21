@@ -2,9 +2,11 @@ import json
 import sys
 from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
-import utils.loadConfig
+import utils.loadConfig as loadConfig
 
 from lastpy import extras
+
+config = loadConfig.getConfig()
 
 user_name = config['keys']['lastfm']['username']
 
