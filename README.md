@@ -14,7 +14,9 @@ you begin integrating your own data.
    password is securely stored and code can therefore be pushed to GitHub easily
    without containing keys, etc.
 3. In `config.json`, edit the `myfitnesspal` key to provide your username.
-3. Run `python3 sync/getMyFitnessPal.py`.
+4. Run `python3 sync/getMyFitnessPal.py`.
+5. Now with your data, run `python3 process/nutrition-tracker.py` to get an
+   array of insights from your data.
 
 ### Mint Finance
 1. First visit, mint.intuit.com and sign-in to your account.
@@ -34,6 +36,11 @@ Data export:
 1. Visit [https://wakatime.com/settings/account](https://wakatime.com/settings/account)
 2. Scroll down to the export section and follow the prompts.
 3. Place the export file in `records/` and name it `wakatime-export.json`.
+
+### Last.fm
+
+Our sync method uses the last.fm API and will require some authentication on
+your end.
 
 ### Coming soon(er or later)
 * Garmin
