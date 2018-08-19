@@ -5,15 +5,13 @@ import json
 from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
+import utils
 
 config = loadConfig.getConfig()
 
 try:
-    data_file = open('records/myfitnesspal-food.json')
-    contents = data_file.read()
-    json_data = json.loads(contents)
-    data_file.close()
-except:
+    json_data = utils.load_record_json('myfitnesspal-food.json')
+except IOError as e:
     print('Make sure you\'ve synced MyFitnessPal nutrition data')
     sys.exit()
 

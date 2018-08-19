@@ -5,14 +5,12 @@ import json
 from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
+import utils
 
 config = loadConfig.getConfig()
 
 try:
-    data_file = open('records/wakatime-export.json')
-    contents = data_file.read()
-    json_data = json.loads(contents)
-    data_file.close()
+    json_data = utils.load_record_json('wakatime-export.json')
 except:
     print('Make sure you\'ve synced or exported your WakaTime')
     sys.exit()

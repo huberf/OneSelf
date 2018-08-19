@@ -2,10 +2,15 @@
   "keys": {
     "myfitnesspal": {
       "username": "nhuberfeely",
-      "last_sync": "2018-07-06"
+      "last_sync": "2018-07-10"
+    },
+    "lastfm": {
+      "username": "nhuberfeely"
     },
     "strava": {
-      "username": "nhuberfeely"
+      "username": "nhuberfeely",
+      "access_token": "enter_your_own",
+      "runner_id": "enter_your_own"
     }
   }
 }
