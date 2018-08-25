@@ -73,6 +73,19 @@ def highest_trackers_used():
             pass # Tracker no longer exists
     return sorted(hit_list, key=lambda x: x[1], reverse=True)
 
+def overview_report():
+    tracker_counts = highest_trackers_used()
+    print('Your most used trackers by count where {0}, {1}, {2}, {3} and {4}'.format(
+        tracker_counts[0][0],
+        tracker_counts[1][0],
+        tracker_counts[2][0],
+        tracker_counts[3][0],
+        tracker_counts[4][0]
+        ))
+
+def recent_changes_report():
+    pass
 
 # Now Show Report
-print('Your most used tracker by count was {0}'.format(highest_trackers_used()[0][0]))
+overview_report()
+recent_changes_report()
