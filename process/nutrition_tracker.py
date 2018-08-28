@@ -32,12 +32,17 @@ def current_health(data):
         bottom = 0
     last_seven_days = day_data[bottom:top]
     # Check how you compare to recommended nutrient values
-    calorie_sum = 0
-    for i in last_seven_days:
-        calorie_sum += i['day']['totals']['calories']
-    days = top - bottom
-    calorie_avg = calorie_sum / days
-    print('You averaged {0} calories per day in the last week.'.format(calorie_avg))
+    for j in BASELINE_METRICS.keys():
+        value_sum = 0
+        for i in last_seven_days:
+            value_sum += i['day']['totals'][j]
+        days = top - bottom
+        value_avg = value_sum / days
+        expected_intake = BASELINE_METRICS[j]
+        if abs(0 if expected_intake == 0 else value_avg/expected_intake) > 2:
+            print('RED ALERT: You averaged {0} {name} per day in the last week but expected to average {1}.'.format(value_avg, expected_intake, name=j))
+        else:
+            print('You averaged {0} {name} per day in the last week compared to expected {1}.'.format(value_avg, expected_intake, name=j))
     return
 
 def recent_changes(data):
