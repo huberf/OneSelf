@@ -7,6 +7,14 @@ you begin integrating your own data.
 1. Run `git clone https://github.com/huberf/OneSelf`
 2. Navigate there and you can begin the following steps (usually `cd OneSelf/`)
 
+### Proxy Collection
+Currently this server supports sending data to the Nomie 2 app as well as
+receiving data from Nomie 3 webhooks.
+*Warning* This feature is under development and the safety and robustness of the
+data collection is not guaranteed.
+The server can be found in `collection-server/server.py` and started by
+`python3 collection-server/server.py`
+
 ### MyFitnessPal
 1. Run `pip install myfitnesspal`.
 2. Set up your authentication information securely by running `myfitnesspal
