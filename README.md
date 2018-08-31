@@ -45,6 +45,11 @@ Data export:
 2. Scroll down to the export section and follow the prompts.
 3. Place the export file in `records/` and name it `wakatime-export.json`.
 
+### 23&Me Genetic Data
+
+In the settings section, request your full data export. Place the unzipped
+`.txt` file in `records/` with the name `genome_data.txt`.
+
 ### Last.fm
 
 Our sync method uses the last.fm API and will require some authentication on
