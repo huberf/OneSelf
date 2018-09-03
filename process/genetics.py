@@ -10,6 +10,7 @@ import utils
 config = loadConfig.getConfig()
 
 genetic_data = []
+genetic_dictionary = {}
 
 try:
     genome_file = open('records/genome_data.txt')
@@ -27,6 +28,13 @@ try:
                 'position': columns[2],
                 'genotype': columns[3]
                 }]
+            genetic_dictionary[columns[0]] = {
+                    'chromosome': columns[1],
+                    'position': columns[2],
+                    'genotype': columns[3]
+                    }
 except IOError as e:
     print('Make sure you\'ve setup your genetic data')
     sys.exit()
+
+print('You have {0} genotypes sequenced.'.format(len(genetic_data)))
