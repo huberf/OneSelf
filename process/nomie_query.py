@@ -84,6 +84,16 @@ def overview_report():
         ))
 
 def recent_changes_report():
+    global events, trackers, TRACKER_ID_TO_NAME
+    water_items = []
+    water_average = 0
+    current_day = ''
+    # Compatible trackers, Water in Ounces
+    for i in events:
+        # Water work
+        if TRACKER_ID_TO_NAME[i['tracker_id']] == 'Water':
+            water_items += [i]
+            log_time = i['time']
     pass
 
 # Now Show Report
