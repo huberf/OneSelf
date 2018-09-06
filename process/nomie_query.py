@@ -25,6 +25,7 @@ for i in trackers:
 raw_events = json_data['events']
 
 def process_events(raw_events):
+    to_return = []
     for i in raw_events:
         to_yield = {
                 'tracker_id': i['parent'],
@@ -38,7 +39,9 @@ def process_events(raw_events):
             to_yield['geo'] = i['geo']
         except:
             pass
-        yield to_yield
+        # yield to_yield
+        to_return += [to_yield]
+    return to_return
 
 events = process_events(raw_events)
 
@@ -94,6 +97,11 @@ def recent_changes_report():
         if TRACKER_ID_TO_NAME[i['tracker_id']] == 'Water':
             water_items += [i]
             log_time = i['time']
+            print(log_time)
+            date = utils.timestamp_to_datetime(log_time, True)
+            print(date)
+            day_id = utils.day_to_id(date)
+            print(day_id)
     pass
 
 # Now Show Report

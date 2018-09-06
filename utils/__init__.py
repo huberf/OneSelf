@@ -18,9 +18,11 @@ def load_record_json(file_name):
 #######################
 # Time and Date Utils #
 #######################
-def timestamp_to_datetime(stamp):
-    time = (int) stamp
-    return datetime.fromtimestamp(unix_ts)
+def timestamp_to_datetime(stamp, downgrade=False):
+    if (downgrade):
+        stamp = stamp / 1000
+    time = int(stamp)
+    return datetime.fromtimestamp(stamp)
 
 def day_to_id(date):
     start_of_day = datetime(date.year, date.month, date.day)
