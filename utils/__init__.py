@@ -1,5 +1,6 @@
 import json
 from datetime import datetime, timedelta
+import time
 
 def load_file(file_name):
     return open('records/' + file_name)
@@ -25,5 +26,5 @@ def timestamp_to_datetime(stamp, downgrade=False):
     return datetime.fromtimestamp(stamp)
 
 def day_to_id(date):
-    start_of_day = datetime(date.year, date.month, date.day)
-    return start_of_day.timetuple()
+    start_of_day = time.mktime(datetime(date.year, date.month, date.day).timetuple())
+    return start_of_day

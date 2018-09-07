@@ -24,6 +24,12 @@ for i in trackers:
 
 raw_events = json_data['events']
 
+def tracker_id_to_name(id):
+    try:
+        return TRACKER_ID_TO_NAME[id]
+    except:
+        return None
+
 def process_events(raw_events):
     to_return = []
     for i in raw_events:
@@ -94,14 +100,11 @@ def recent_changes_report():
     # Compatible trackers, Water in Ounces
     for i in events:
         # Water work
-        if TRACKER_ID_TO_NAME[i['tracker_id']] == 'Water':
+        if tracker_id_to_name(i['tracker_id']) == 'Water':
             water_items += [i]
             log_time = i['time']
-            print(log_time)
             date = utils.timestamp_to_datetime(log_time, True)
-            print(date)
             day_id = utils.day_to_id(date)
-            print(day_id)
     pass
 
 # Now Show Report
