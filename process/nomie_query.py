@@ -97,6 +97,9 @@ def recent_changes_report():
     water_items = []
     water_average = 0
     current_day = ''
+    recent_days = {}
+    water_average_pre = 0
+    late_days = {}
     # Compatible trackers, Water in Ounces
     for i in events:
         # Water work
@@ -105,6 +108,29 @@ def recent_changes_report():
             log_time = i['time']
             date = utils.timestamp_to_datetime(log_time, True)
             day_id = utils.day_to_id(date)
+            val = int(i['value'])
+            if utils.is_within_days(date, 7):
+                try:
+                    recent_days[day_id] += val
+                except:
+                    recent_days[day_id] = val
+            else:
+                try:
+                    late_days[day_id] += val
+                except:
+                    late_days[day_id] = val
+    length = len(recent_days.keys())
+    for i in recent_days.keys():
+        water_average += recent_days[i]
+    if length > 0:
+        water_average /= length
+    length = len(late_days.keys())
+    for i in late_days.keys():
+        water_average_pre += late_days[i]
+    if length > 0:
+        water_average_pre /= length
+    print('Recent average: ', water_average)
+    print('Previous average: ', water_average_pre)
     pass
 
 # Now Show Report
