@@ -28,3 +28,11 @@ def timestamp_to_datetime(stamp, downgrade=False):
 def day_to_id(date):
     start_of_day = time.mktime(datetime(date.year, date.month, date.day).timetuple())
     return start_of_day
+
+def is_within_days(date, days):
+    delta = day_to_id(datetime.today()) - day_to_id(date)
+    num_days = delta / (60*60*24)
+    if num_days <= days:
+        return True
+    else:
+        return False

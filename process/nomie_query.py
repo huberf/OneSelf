@@ -94,43 +94,49 @@ def overview_report():
 
 def recent_changes_report():
     global events, trackers, TRACKER_ID_TO_NAME
-    water_items = []
     water_average = 0
+    average = {}
+    average['Water'] = 0
     current_day = ''
     recent_days = {}
-    water_average_pre = 0
+    recent_days['Water'] = {}
+    average_pre = {}
+    average_pre['Water'] = 0
     late_days = {}
+    late_days['Water'] = {}
     # Compatible trackers, Water in Ounces
     for i in events:
         # Water work
-        if tracker_id_to_name(i['tracker_id']) == 'Water':
-            water_items += [i]
-            log_time = i['time']
-            date = utils.timestamp_to_datetime(log_time, True)
-            day_id = utils.day_to_id(date)
-            val = int(i['value'])
-            if utils.is_within_days(date, 7):
-                try:
-                    recent_days[day_id] += val
-                except:
-                    recent_days[day_id] = val
-            else:
-                try:
-                    late_days[day_id] += val
-                except:
-                    late_days[day_id] = val
-    length = len(recent_days.keys())
-    for i in recent_days.keys():
-        water_average += recent_days[i]
-    if length > 0:
-        water_average /= length
-    length = len(late_days.keys())
-    for i in late_days.keys():
-        water_average_pre += late_days[i]
-    if length > 0:
-        water_average_pre /= length
-    print('Recent average: ', water_average)
-    print('Previous average: ', water_average_pre)
+        for j in ['Water']:
+            if tracker_id_to_name(i['tracker_id']) == j:
+                log_time = i['time']
+                date = utils.timestamp_to_datetime(log_time, True)
+                day_id = utils.day_to_id(date)
+                val = int(i['value'])
+                if utils.is_within_days(date, 7):
+                    try:
+                        recent_days[j][day_id] += val
+                    except:
+                        recent_days[j][day_id] = val
+                else:
+                    try:
+                        late_days[j][day_id] += val
+                    except:
+                        late_days[j][day_id] = val
+    # Water
+    for j in ['Water']:
+        length = len(recent_days[j].keys())
+        for i in recent_days[j].keys():
+            average[j] += recent_days[j][i]
+        if length > 0:
+            average[j] /= length
+        length = len(late_days[j].keys())
+        for i in late_days[j].keys():
+            average_pre[j] += late_days[j][i]
+        if length > 0:
+            average_pre[j] /= length
+        print('Recent average: ', average[j])
+        print('Previous average: ', average_pre[j])
     pass
 
 # Now Show Report
