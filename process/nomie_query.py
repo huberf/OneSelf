@@ -104,6 +104,9 @@ def recent_changes_report():
     average_pre['Water'] = 0
     late_days = {}
     late_days['Water'] = {}
+    good_values = {
+            'Water': 3.0 # 3 quarts
+            }
     # Compatible trackers, Water in Ounces
     for i in events:
         # Water work
@@ -130,13 +133,16 @@ def recent_changes_report():
             average[j] += recent_days[j][i]
         if length > 0:
             average[j] /= length
+        fraction_off_perfection = average[j] / good_values[j]
+        if (fraction_off_perfection < 0.8):
+            print('WARNING: ', j, 'is just', fraction_off_perfection*100, '% of recommendation this week')
         length = len(late_days[j].keys())
         for i in late_days[j].keys():
             average_pre[j] += late_days[j][i]
         if length > 0:
             average_pre[j] /= length
-        print('Recent average: ', average[j])
-        print('Previous average: ', average_pre[j])
+        print(j, 'recent average: ', average[j])
+        print(j, 'previous average: ', average_pre[j])
     pass
 
 # Now Show Report
