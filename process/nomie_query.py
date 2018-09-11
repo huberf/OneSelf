@@ -92,8 +92,15 @@ def overview_report():
         tracker_counts[4][0]
         ))
 
+recent_trackers = [
+        'Water'
+        ]
+daily_expected = {
+        'Water': 3.0 # 3 quarts
+        }
 def recent_changes_report():
     global events, trackers, TRACKER_ID_TO_NAME
+    global recent_trackers, daily_expected
     water_average = 0
     average = {}
     average['Water'] = 0
@@ -104,13 +111,10 @@ def recent_changes_report():
     average_pre['Water'] = 0
     late_days = {}
     late_days['Water'] = {}
-    good_values = {
-            'Water': 3.0 # 3 quarts
-            }
     # Compatible trackers, Water in Ounces
     for i in events:
         # Water work
-        for j in ['Water']:
+        for j in recent_trackers:
             if tracker_id_to_name(i['tracker_id']) == j:
                 log_time = i['time']
                 date = utils.timestamp_to_datetime(log_time, True)
@@ -127,15 +131,17 @@ def recent_changes_report():
                     except:
                         late_days[j][day_id] = val
     # Water
-    for j in ['Water']:
+    for j in recent_trackers:
         length = len(recent_days[j].keys())
         for i in recent_days[j].keys():
             average[j] += recent_days[j][i]
         if length > 0:
             average[j] /= length
-        fraction_off_perfection = average[j] / good_values[j]
+        fraction_off_perfection = average[j] / daily_expected[j]
         if (fraction_off_perfection < 0.8):
             print('WARNING: ', j, 'is just', fraction_off_perfection*100, '% of recommendation this week')
+        if (fraction_off_perfection > 1.8):
+            print('WARNING: ', j, 'is', fraction_off_perfection*100, '% more than recommended this week')
         length = len(late_days[j].keys())
         for i in late_days[j].keys():
             average_pre[j] += late_days[j][i]
