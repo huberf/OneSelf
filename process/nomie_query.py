@@ -96,7 +96,11 @@ recent_trackers = [
         'Water'
         ]
 daily_expected = {
-        'Water': 3.0 # 3 quarts
+        'Water': {
+            'val': 3.0, # 3 quarts
+            'high': 5.0, # 1.8 times val
+            'low': 1.5 # 0.8 times val
+            }
         }
 def recent_changes_report():
     global events, trackers, TRACKER_ID_TO_NAME
@@ -137,10 +141,11 @@ def recent_changes_report():
             average[j] += recent_days[j][i]
         if length > 0:
             average[j] /= length
-        fraction_off_perfection = average[j] / daily_expected[j]
-        if (fraction_off_perfection < 0.8):
+        val = daily_expected[j]['val']
+        fraction_off_perfection = average[j] / val
+        if (val < daily_expected[j]['high']):
             print('WARNING: ', j, 'is just', fraction_off_perfection*100, '% of recommendation this week')
-        if (fraction_off_perfection > 1.8):
+        if (val > daily_expected[j]['low']):
             print('WARNING: ', j, 'is', fraction_off_perfection*100, '% more than recommended this week')
         length = len(late_days[j].keys())
         for i in late_days[j].keys():
