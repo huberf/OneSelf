@@ -141,12 +141,11 @@ def recent_changes_report():
             average[j] += recent_days[j][i]
         if length > 0:
             average[j] /= length
-        val = daily_expected[j]['val']
-        fraction_off_perfection = average[j] / val
-        if (val < daily_expected[j]['high']):
-            print('WARNING: ', j, 'is just', fraction_off_perfection*100, '% of recommendation this week')
-        if (val > daily_expected[j]['low']):
-            print('WARNING: ', j, 'is', fraction_off_perfection*100, '% more than recommended this week')
+        fraction_off_perfection = average[j] / daily_expected[j]['val']
+        if (average[j] < daily_expected[j]['low']):
+            print('WARNING: {name} is just {percent}% of recommendation this week'.format(name=j, percent=fraction_off_perfection*100))
+        if (average[j] > daily_expected[j]['high']):
+            print('WARNING: {name} is {percent}% more than recommended this week'.format(name=j, percent=fraction_off_perfection*100))
         length = len(late_days[j].keys())
         for i in late_days[j].keys():
             average_pre[j] += late_days[j][i]
