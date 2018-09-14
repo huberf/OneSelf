@@ -107,14 +107,17 @@ def recent_changes_report():
     global recent_trackers, daily_expected
     water_average = 0
     average = {}
-    average['Water'] = 0
-    current_day = ''
+    for i in recent_trackers:
+        average[i] = 0
     recent_days = {}
-    recent_days['Water'] = {}
+    for i in recent_trackers:
+        recent_days[i] = {}
     average_pre = {}
-    average_pre['Water'] = 0
+    for i in recent_trackers:
+        average_pre[i] = 0
     late_days = {}
-    late_days['Water'] = {}
+    for i in recent_trackers:
+        late_days[i] = {}
     # Compatible trackers, Water in Ounces
     for i in events:
         # Water work
@@ -151,8 +154,8 @@ def recent_changes_report():
             average_pre[j] += late_days[j][i]
         if length > 0:
             average_pre[j] /= length
-        print(j, 'recent average: ', average[j])
-        print(j, 'previous average: ', average_pre[j])
+        print('{name} recent average: {avg}'.format(name=j, avg=average[j]))
+        print('{name} previous average: {avg}'.format(name=j, avg=average_pre[j]))
     pass
 
 # Now Show Report
