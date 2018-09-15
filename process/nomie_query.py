@@ -154,6 +154,9 @@ def recent_changes_report():
             average_pre[j] += late_days[j][i]
         if length > 0:
             average_pre[j] /= length
+        historical_change = average[j] / average_pre[j]
+        if (historical_change < 0.5 or historical_change > 1.5):
+            print('WARNING: {name} has changed by {value} times.'.format(name=j, value=historical_change))
         print('{name} recent average: {avg}'.format(name=j, avg=average[j]))
         print('{name} previous average: {avg}'.format(name=j, avg=average_pre[j]))
     pass
