@@ -8,6 +8,9 @@ var bodyParser = require('body-parser');
 var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
+// Load events and any other local config
+var events = require('./events.json')
+
 //Setting up the port to listen to
 app.set('port', (process.env.PORT || 5000));
 
@@ -28,8 +31,12 @@ app.set('views', __dirname + '/views');
 app.set('view engine', 'ejs');
 
 
-app.get('/', function(req, res) {
+app.get('/', (req, res) => {
 	res.render('pages/index');
+});
+
+app.get('/events/list', (req, res) => {
+  res.send(events);
 });
 
 io.sockets.on('connection', function(socket) {
