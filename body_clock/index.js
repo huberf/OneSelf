@@ -32,7 +32,11 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', (req, res) => {
-	res.render('pages/index');
+	res.render('pages/index', { events });
+});
+
+app.get('/example-clock', (req, res) => {
+	res.render('pages/example');
 });
 
 app.get('/events/list', (req, res) => {

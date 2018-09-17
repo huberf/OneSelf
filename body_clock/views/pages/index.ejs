@@ -2,7 +2,41 @@
 <html>
 	<body>
 		<h1>My Body Clock</h1>
-    <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/3/30/Biological_clock_human.svg/1200px-Biological_clock_human.svg.png" />
-    <p></p>
+    <p>Once built, your body clock wil be here.</p>
+    <style>
+line {
+  stroke-width: 3px;
+  stroke: black;
+}
+#clock-box {
+  padding-right: 100px;
+  padding-left: 100px;
+}
+    </style>
+    <div id="clock-box">
+      <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000">
+        <g>
+          <circle id="circle" style="stroke: black; fill: #f8f8f8;" cx="300" cy="300" r="300"></circle>
+          <line id="hour0" x1="300" y1="30" x2="300" y2="0"></line>
+          <line id="hour1" x1="435" y1="66.17314097820156" x2="450" y2="40.1923788646684"></line>
+          <line id="hour2" x1="533.8268590217984" y1="165" x2="559.8076211353316" y2="150"></line>
+          <line id="hour3" x1="570" y1="300" x2="600" y2="300"></line>
+          <line id="hour4" x1="533.8268590217984" y1="434.99999999999994" x2="559.8076211353316" y2="449.99999999999994"></line>
+          <line id="hour5" x1="435" y1="533.8268590217984" x2="450" y2="559.8076211353316"></line>
+          <line id="hour6" x1="300" y1="570" x2="300" y2="600"></line>
+          <line id="hour7" x1="164.99999999999997" y1="533.8268590217984" x2="149.99999999999997" y2="559.8076211353316"></line>
+          <line id="hour8" x1="66.17314097820162" y1="435.0000000000001" x2="40.192378864668456" y2="450.0000000000001"></line>
+          <line id="hour9" x1="30" y1="300.00000000000006" x2="0" y2="300.00000000000006"></line>
+          <line id="hour10" x1="66.17314097820159" y1="164.99999999999997" x2="40.1923788646684" y2="149.99999999999997"></line>
+          <line id="hour11" x1="164.9999999999999" y1="66.17314097820164" x2="149.99999999999986" y2="40.19237886466851"></line>
+        </g>
+        <g>
+        <% for (var i = 0; i < events.length; i++) { %>
+        <text x="<%= 20*i + 10 %>" y="35" id="event<%= i %>"><%= events[i].name %></text>
+        <% } %>
+        </g>
+      </svg>
+    </div>
+    <a href="/example-clock">Example body clock</a>
 	</body>
 </html>

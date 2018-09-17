@@ -6,3 +6,13 @@ various aspects will impact your day. Visually the system will have a clock of t
 around its edge various events are placed such as ones highest blood pressure,
 sleep period, best time for exercise and other lifestyle and physiological
 components.
+
+
+## Setup
+1. Run `npm install`
+2. Execute `npm start`
+3. Setup events in `events.json`
+
+## Sources
+Initial clock SVG from
+[https://html5demos.com/svg-clock/](https://html5demos.com/svg-clock/)
