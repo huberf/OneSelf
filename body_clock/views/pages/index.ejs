@@ -31,6 +31,9 @@ line {
           <line id="hour11" x1="164.9999999999999" y1="66.17314097820164" x2="149.99999999999986" y2="40.19237886466851"></line>
         </g>
         <g>
+          <line x1="300" y1="300" x2="46.39691668109029" y2="326.6547581332516" style="stroke-width: 4px; stroke: blue;" id="currenttime"></line>
+        </g>
+        <g>
         <% for (var i = 0; i < events.length; i++) { %>
         <text x="<%= 20*i + 10 %>" y="35" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
@@ -39,4 +42,23 @@ line {
     </div>
     <a href="/example-clock">Example body clock</a>
 	</body>
+  <script>
+function update_clock() {
+  var now = new Date();
+  var then = new Date(
+          now.getFullYear(),
+          now.getMonth(),
+          now.getDate(),
+          0,0,0);
+  var ms_since_midnight = now.getTime() - then.getTime();
+  var fraction_around = ms_since_midnight / (24*60*60*1000)
+  var y = Math.cos(fraction_around*2*3.1415)
+  var x = Math.sin(fraction_around*2*3.1415)
+  var element = document.getElementById('currenttime');
+  element.setAttribute('x2', x*290 + 300);
+  element.setAttribute('y2', -y*290 + 300);
+}
+update_clock();
+setInterval(update_clock, 1000);
+  </script>
 </html>
