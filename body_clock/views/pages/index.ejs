@@ -49,7 +49,10 @@ line {
         <% for (var i = 0; i < events.length; i++) { %>
         <% var timeParts = events[i].begin.split(':'); %>
         <% var beginPercent = ((parseInt(timeParts[0]) + parseInt(timeParts[0])/60))/24.0; %>
-        <text x="<%= 20*i + 10 %>" y="35" id="event<%= i %>"><%= events[i].name %></text>
+        <% var sin = math.sin(around*2*3.141592654) %>
+        <% var cos = math.cos(around*2*3.141592654) %>
+        <% var x1 = 300*sin + 300; var y1 = -(300)*cos + 300; %>
+        <text x="<%= x1 %>" y="<% y1 %>" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         </g>
       </svg>
