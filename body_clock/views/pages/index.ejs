@@ -47,6 +47,8 @@ line {
         </g>
         <g>
         <% for (var i = 0; i < events.length; i++) { %>
+        <% var timeParts = events[i].begin.split(':'); %>
+        <% var beginPercent = ((parseInt(timeParts[0]) + parseInt(timeParts[0])/60))/24.0; %>
         <text x="<%= 20*i + 10 %>" y="35" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         </g>
