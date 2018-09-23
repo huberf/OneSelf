@@ -51,8 +51,8 @@ line {
         <% var beginPercent = ((parseInt(timeParts[0]) + parseInt(timeParts[0])/60))/24.0; %>
         <% var sin = Math.sin(beginPercent*2*3.141592654) %>
         <% var cos = Math.cos(beginPercent*2*3.141592654) %>
-        <% var x1 = 300*sin + 300; var y1 = -(300)*cos + 300; %>
-        <text x="<%= x1 %>" y="<% y1 %>" id="event<%= i %>"><%= events[i].name %></text>
+        <% var x1 = 200*sin + 300; var y1 = -(200)*cos + 300; %>
+        <text x="<%= x1 %>" y="<%= y1 %>" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         </g>
       </svg>
