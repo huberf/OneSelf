@@ -1,0 +1,17 @@
+[
+  {
+    "name": "Sleep",
+    "start": "21:30",
+    "end": "05:00"
+  },
+  {
+    "name": "Morning Run",
+    "start": "06:30",
+    "end": "07:30"
+  },
+  {
+    "name": "Breakfast",
+    "start": "08:00",
+    "end": "08:30"
+  }
+]

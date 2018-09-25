@@ -48,16 +48,20 @@ line {
         <g>
         <% for (var i = 0; i < events.length; i++) { %>
         <% var timeParts = events[i].start.split(':'); %>
-        <% var beginPercent1 = ((parseInt(timeParts[0]) + parseInt(timeParts[0])/60.0))/24.0; %>
-        <% var sin = Math.sin(beginPercent1*2*3.141592654) %>
-        <% var cos = Math.cos(beginPercent1*2*3.141592654) %>
+        <% var beginPercent = ((parseFloat(timeParts[0]) + parseFloat(timeParts[1])/60.0))/24.0; %>
+        <% var sin = Math.sin(beginPercent*2*3.141592654) %>
+        <% var cos = Math.cos(beginPercent*2*3.141592654) %>
         <% var x1 = 200*sin + 300; var y1 = -(200)*cos + 300; %>
         <% timeParts = events[i].end.split(':'); %>
-        <% beginPercent2 = ((parseInt(timeParts[0]) + parseInt(timeParts[0])/60.0))/24.0; %>
-        <% sin = Math.sin(beginPercent2*2*3.141592654) %>
-        <% cos = Math.cos(beginPercent2*2*3.141592654) %>
+        <% var endPercent = ((parseFloat(timeParts[0]) + parseFloat(timeParts[1])/60.0))/24.0; %>
+        <% sin = Math.sin(endPercent*2*3.141592654) %>
+        <% cos = Math.cos(endPercent*2*3.141592654) %>
         <% var x2 = 200*sin + 300; var y2 = -(200)*cos + 300; %>
-        <text x="<%= x1 %>" y="<%= y1 %>" id="event<%= i %>"><%= events[i].name %></text>
+        <% var textPercent = ((beginPercent + endPercent) % 1)/2.0; %>
+        <% sin = Math.sin(textPercent*2*3.141592654) %>
+        <% cos = Math.cos(textPercent*2*3.141592654) %>
+        <% var xT = 200*sin + 300; var yT = -(200)*cos + 300; %>
+        <text x="<%= xT %>" y="<%= yT %>" id="event<%= i %>"><%= events[i].name %></text>
         <line id="eventLine<%= i %>" x1="<%= x1 %>" y1="<%= y1 %>" x2="<%= x2 %>" y2="<%= y2 %>"></line>
         <% } %>
         </g>
