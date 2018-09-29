@@ -8,6 +8,10 @@ line {
   stroke-width: 3px;
   stroke: black;
 }
+.eventLine {
+  stroke-width: 2px;
+  stroke: blue;
+}
 #clock-box {
   padding-right: 100px;
   padding-left: 100px;
@@ -60,11 +64,19 @@ var textPercent = ((beginPercent + endPercent) % 1)/2.0;
 var sinT = Math.sin(textPercent*2*3.141592654);
 var cosT = Math.cos(textPercent*2*3.141592654);
         %>
-        <text x="<%= 200*sinT + 300 %>" y="<%= -(200)*cosT + 300%>" id="event<%= i %>"><%= events[i].name %></text>
-        <line id="eventLine<%= i %>"
+        <line class="eventLine" id="eventLine<%= i %>"
           x1="<%= 200*sin1 + 300 %>" y1="<%= -(200)*cos1 + 300 %>"
           x2="<%= 200*sin2 + 300 %>" y2="<%= -(200)*cos2 + 300 %>">
         </line>
+        <line class="eventLine" id="eventLineToEdgeS<%= i %>"
+          x1="<%= 200*sin1 + 300 %>" y1="<%= -(200)*cos1 + 300 %>"
+          x2="<%= 300*sin1 + 300 %>" y2="<%= -(300)*cos1 + 300 %>">
+        </line>
+        <line class="eventLine" id="eventLineToEdgeE<%= i %>"
+          x1="<%= 200*sin2 + 300 %>" y1="<%= -(200)*cos2 + 300 %>"
+          x2="<%= 300*sin2 + 300 %>" y2="<%= -(300)*cos2 + 300 %>">
+        </line>
+        <text x="<%= 200*sinT + 300 %>" y="<%= -(200)*cosT + 300%>" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         </g>
       </svg>
