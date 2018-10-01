@@ -103,13 +103,28 @@ for i in events:
             date = utils.timestamp_to_datetime(log_time, True)
             day_id = utils.day_to_id(date)
             try:
-                day_vals[day_id] += float(i['value'])
+                val = float(i['value'])
+                if val == 0:
+                    day_vals[day_id] += 1
+                else:
+                    day_vals[day_id] += float(i['value'])
             except:
                 day_vals[day_id] = 0
     except KeyError:
         pass
 avg_day = 0
+maxi = None
+mini = None
 for i in day_vals.keys():
+    if maxi == None or mini == None:
+        maxi = day_vals[i]
+        mini = day_vals[i]
     avg_day += day_vals[i]
+    if maxi < day_vals[i]:
+        maxi = day_vals[i]
+    if mini > day_vals[i]:
+        mini = day_vals[i]
 avg_day /= len(day_vals.keys())
 print("Avg per day: {0}".format(avg_day))
+print("Max: {0}".format(maxi))
+print("Min: {0}".format(mini))
