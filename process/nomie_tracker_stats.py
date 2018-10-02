@@ -102,16 +102,24 @@ for i in events:
             log_time = i['time']
             date = utils.timestamp_to_datetime(log_time, True)
             day_id = utils.day_to_id(date)
+            val = float(i['value'])
             try:
-                val = float(i['value'])
                 if val == 0:
                     day_vals[day_id] += 1
                 else:
-                    day_vals[day_id] += float(i['value'])
+                    day_vals[day_id] += val
             except:
-                day_vals[day_id] = 0
+                if val == 0:
+                    day_vals[day_id] = 1
+                else:
+                    day_vals[day_id] = val
     except KeyError:
         pass
+
+if len(day_vals.keys()) == 0:
+    print("Unfortunately that tracker could not be found.")
+    sys.exit(0)
+
 avg_day = 0
 maxi = None
 mini = None
