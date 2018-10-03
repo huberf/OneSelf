@@ -132,7 +132,10 @@ for i in day_vals.keys():
         maxi = day_vals[i]
     if mini > day_vals[i]:
         mini = day_vals[i]
-avg_day /= len(day_vals.keys())
+days = utils.tracked_days(events, min(day_vals.keys()))
+avg_day /= days
+
+print("Days since first event: {0}".format(days))
 print("Avg per day: {0}".format(avg_day))
 print("Max: {0}".format(maxi))
 print("Min: {0}".format(mini))

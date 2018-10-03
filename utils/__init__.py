@@ -36,3 +36,14 @@ def is_within_days(date, days):
         return True
     else:
         return False
+
+# Counts days since the earliest val containing at least one tracked event
+def tracked_days(events, earliest_val):
+    days = {}
+    for i in events:
+        log_time = i['time']
+        date = timestamp_to_datetime(log_time, True)
+        day_id = day_to_id(date)
+        if day_id >= int(earliest_val):
+            days[day_id] = 0
+    return len(days.keys())
