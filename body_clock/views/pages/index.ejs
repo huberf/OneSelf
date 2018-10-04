@@ -51,6 +51,7 @@ line {
         </g>
         <g>
         <% for (var i = 0; i < events.length; i++) { %>
+        <% if (events[i].time == undefined) { %>
         <%
 var timeParts = events[i].start.split(':');
 var beginPercent = ((parseFloat(timeParts[0]) + parseFloat(timeParts[1])/60.0))/24.0;
@@ -77,6 +78,19 @@ var cosT = Math.cos(textPercent*2*3.141592654);
           x2="<%= 300*sin2 + 300 %>" y2="<%= -(300)*cos2 + 300 %>">
         </line>
         <text x="<%= 200*sinT + 300 %>" y="<%= -(200)*cosT + 300%>" id="event<%= i %>"><%= events[i].name %></text>
+        <% } else { %>
+        <%
+var timeParts = events[i].time.split(':');
+var beginPercent = ((parseFloat(timeParts[0]) + parseFloat(timeParts[1])/60.0))/24.0;
+var sin = Math.sin(beginPercent*2*3.141592654);
+var cos = Math.cos(beginPercent*2*3.141592654);
+        %>
+        <line class="eventLine" id="eventLineToEdgeE<%= i %>"
+          x1="<%= 300*sin + 300 %>" y1="<%= -(300)*cos + 300 %>"
+          x2="<%= 310*sin + 300 %>" y2="<%= -(310)*cos + 300 %>">
+        </line>
+        <text x="<%= 320*sin + 300 %>" y="<%= -(320)*cos + 300%>" id="event<%= i %>"><%= events[i].name %></text>
+        <% } %>
         <% } %>
         </g>
       </svg>

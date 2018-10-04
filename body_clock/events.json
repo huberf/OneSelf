@@ -13,5 +13,9 @@
     "name": "Breakfast",
     "start": "08:00",
     "end": "08:30"
+  },
+  {
+    "name": "Lowest Heart Rate",
+    "time": "03:43"
   }
 ]
