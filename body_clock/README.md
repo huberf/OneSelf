@@ -13,6 +13,24 @@ components.
 2. Execute `npm start`
 3. Setup events in `events.json`
 
+## Event Types
+An instantaneous event such as the moment of lowest heart rate is described by:
+```
+{
+  "name": "Lowest Heart Rate",
+  "time": "03:43"
+}
+```
+
+An event that occurs over an extended period of time:
+```
+{
+  "name": "Sleep",
+  "start": "21:30",
+  "end": "05:00"
+}
+```
+
 ## Sources
 Initial clock SVG from
 [https://html5demos.com/svg-clock/](https://html5demos.com/svg-clock/)
