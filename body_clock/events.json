@@ -15,7 +15,25 @@
     "end": "08:30"
   },
   {
+    "name": "Lunch",
+    "start": "12:00",
+    "end": "12:30"
+  },
+  {
+    "name": "Dinner",
+    "start": "17:00",
+    "end": "17:30"
+  },
+  {
     "name": "Lowest Heart Rate",
     "time": "03:43"
+  },
+  {
+    "name": "Peak Reading Capacity",
+    "time": "05:45"
+  },
+  {
+    "name": "Mental Slump",
+    "time": "13:11"
   }
 ]
