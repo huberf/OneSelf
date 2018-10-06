@@ -89,7 +89,7 @@ var cos = Math.cos(beginPercent*2*3.141592654);
           x1="<%= 300*sin + 300 %>" y1="<%= -(300)*cos + 300 %>"
           x2="<%= 310*sin + 300 %>" y2="<%= -(310)*cos + 300 %>">
         </line>
-        <text x="<%= 320*sin + 300 %>" y="<%= -(320)*cos + 300%>" id="event<%= i %>"><%= events[i].name %></text>
+        <text transform="translate(<%= 320*sin + 300 %>,<%= -(320)*cos + 300 %>)rotate(<%= beginPercent*360 % 180 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         <% } %>
         </g>
