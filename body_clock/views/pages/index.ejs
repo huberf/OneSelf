@@ -61,7 +61,12 @@ timeParts = events[i].end.split(':');
 var endPercent = ((parseFloat(timeParts[0]) + parseFloat(timeParts[1])/60.0))/24.0;
 var sin2 = Math.sin(endPercent*2*3.141592654);
 var cos2 = Math.cos(endPercent*2*3.141592654);
-var textPercent = ((beginPercent + endPercent) % 1)/2.0;
+var textPercent = ((beginPercent + endPercent))/2.0;
+%>
+<% if (beginPercent > endPercent) { %>
+<% textPercent = ((beginPercent + endPercent) % 1)/2.0; %>
+<% } %>
+<%
 var sinT = Math.sin(textPercent*2*3.141592654);
 var cosT = Math.cos(textPercent*2*3.141592654);
         %>
@@ -77,7 +82,7 @@ var cosT = Math.cos(textPercent*2*3.141592654);
           x1="<%= 200*sin2 + 300 %>" y1="<%= -(200)*cos2 + 300 %>"
           x2="<%= 300*sin2 + 300 %>" y2="<%= -(300)*cos2 + 300 %>">
         </line>
-        <text x="<%= 200*sinT + 300 %>" y="<%= -(200)*cosT + 300%>" id="event<%= i %>"><%= events[i].name %></text>
+        <text transform="translate(<%= 200*sinT + 300 %>,<%= -(200)*cosT + 300 %>)rotate(<%= textPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } else { %>
         <%
 var timeParts = events[i].time.split(':');
@@ -89,7 +94,7 @@ var cos = Math.cos(beginPercent*2*3.141592654);
           x1="<%= 300*sin + 300 %>" y1="<%= -(300)*cos + 300 %>"
           x2="<%= 310*sin + 300 %>" y2="<%= -(310)*cos + 300 %>">
         </line>
-        <text transform="translate(<%= 320*sin + 300 %>,<%= -(320)*cos + 300 %>)rotate(<%= beginPercent*360 % 180 %>)" id="event<%= i %>"><%= events[i].name %></text>
+        <text transform="translate(<%= 320*sin + 300 %>,<%= -(320)*cos + 300 %>)rotate(<%= beginPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         <% } %>
         </g>
