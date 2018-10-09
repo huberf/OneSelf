@@ -16,8 +16,12 @@ line {
   padding-right: 100px;
   padding-left: 100px;
 }
-<% var padding = 30; %>
+.clockHour {
+  font-weight: bold;
+  font-size: 18px;
+}
     </style>
+<% var padding = 30; %>
     <div id="clock-box">
       <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000">
         <g>
@@ -36,13 +40,13 @@ line {
           <% } %>
         </g>
         <g>
-          <text x="605" y="300">9</text>
-          <text x="300" y="605">12</text>
-          <text x="0" y="300">18</text>
-          <text x="300" y="0">24</text>
+        <text class="clockHour" x="<%= 605 + padding %>" y="<%= 300 + padding + 5 %>">6</text>
+        <text class="clockHour" x="<%= 300 + padding - 8 %>" y="<%= 615 + padding %>">12</text>
+        <text class="clockHour" x="<%= -20 + padding %>" y="<%= 300 + padding + 5 %>">18</text>
+        <text class="clockHour" x="<%= 300 + padding - 6 %>" y="<%= -5 + padding %>">24</text>
         </g>
         <g>
-          <line x1="<%= padding + 300 %>" y1="300" x2="46.39691668109029" y2="326.6547581332516" style="stroke-width: 4px; stroke: blue;" id="currenttime"></line>
+        <line x1="<%= padding + 300 %>" y1="<%= padding + 300 %>" x2="<%= padding + 46.39691668109029 %>" y2="<%= padding + 326.6547581332516 %>" style="stroke-width: 4px; stroke: blue;" id="currenttime"></line>
         </g>
         <g>
         <% for (var i = 0; i < events.length; i++) { %>
@@ -66,18 +70,18 @@ var sinT = Math.sin(textPercent*2*3.141592654);
 var cosT = Math.cos(textPercent*2*3.141592654);
         %>
         <line class="eventLine" id="eventLine<%= i %>"
-          x1="<%= 200*sin1 + 300 %>" y1="<%= -(200)*cos1 + 300 %>"
-          x2="<%= 200*sin2 + 300 %>" y2="<%= -(200)*cos2 + 300 %>">
+          x1="<%= 200*sin1 + 300 + padding %>" y1="<%= -(200)*cos1 + 300 + padding %>"
+          x2="<%= 200*sin2 + 300 + padding %>" y2="<%= -(200)*cos2 + 300 + padding %>">
         </line>
         <line class="eventLine" id="eventLineToEdgeS<%= i %>"
-          x1="<%= 200*sin1 + 300 %>" y1="<%= -(200)*cos1 + 300 %>"
-          x2="<%= 300*sin1 + 300 %>" y2="<%= -(300)*cos1 + 300 %>">
+          x1="<%= 200*sin1 + 300 + padding %>" y1="<%= -(200)*cos1 + 300 + padding %>"
+          x2="<%= 300*sin1 + 300 + padding %>" y2="<%= -(300)*cos1 + 300 + padding %>">
         </line>
         <line class="eventLine" id="eventLineToEdgeE<%= i %>"
-          x1="<%= 200*sin2 + 300 %>" y1="<%= -(200)*cos2 + 300 %>"
-          x2="<%= 300*sin2 + 300 %>" y2="<%= -(300)*cos2 + 300 %>">
+          x1="<%= 200*sin2 + 300 + padding %>" y1="<%= -(200)*cos2 + 300 + padding %>"
+          x2="<%= 300*sin2 + 300 + padding %>" y2="<%= -(300)*cos2 + 300 + padding %>">
         </line>
-        <text transform="translate(<%= 200*sinT + 300 %>,<%= -(200)*cosT + 300 %>)rotate(<%= textPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
+        <text transform="translate(<%= 200*sinT + 300 + padding %>,<%= -(200)*cosT + 300 + padding %>)rotate(<%= textPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } else { %>
         <%
 var timeParts = events[i].time.split(':');
@@ -86,10 +90,10 @@ var sin = Math.sin(beginPercent*2*3.141592654);
 var cos = Math.cos(beginPercent*2*3.141592654);
         %>
         <line class="eventLine" id="eventLineToEdgeE<%= i %>"
-          x1="<%= 300*sin + 300 %>" y1="<%= -(300)*cos + 300 %>"
-          x2="<%= 310*sin + 300 %>" y2="<%= -(310)*cos + 300 %>">
+          x1="<%= 300*sin + 300 + padding %>" y1="<%= -(300)*cos + 300 + padding %>"
+          x2="<%= 310*sin + 300 + padding %>" y2="<%= -(310)*cos + 300 + padding %>">
         </line>
-        <text transform="translate(<%= 320*sin + 300 %>,<%= -(320)*cos + 300 %>)rotate(<%= beginPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
+        <text transform="translate(<%= 320*sin + 300 + padding %>,<%= -(320)*cos + 300 + padding %>)rotate(<%= beginPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         <% } %>
         </g>
@@ -110,8 +114,8 @@ function update_clock() {
   var y = Math.cos(fraction_around*3.1415*2)
   var x = Math.sin(fraction_around*3.1415*2)
   var element = document.getElementById('currenttime');
-  element.setAttribute('x2', x*290 + 300);
-  element.setAttribute('y2', -y*290 + 300);
+  element.setAttribute('x2', x*290 + 300 + <%= padding %>);
+  element.setAttribute('y2', -y*290 + 300 + <%= padding %>);
 }
 update_clock();
 setInterval(update_clock, 1000);
