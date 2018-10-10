@@ -43,6 +43,12 @@ app.get('/events/list', (req, res) => {
   res.send(events);
 });
 
+app.get('/events/reload', (req, res) => {
+  delete require.cache[require.resolve('./events.json')]
+  events = require('./events.json');
+  res.send({ status: 'success' });
+});
+
 io.sockets.on('connection', function(socket) {
   /*
   socket.on('test', function(data) {
