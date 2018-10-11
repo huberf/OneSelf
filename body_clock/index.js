@@ -9,7 +9,18 @@ var http = require('http').Server(app);
 var io = require('socket.io')(http);
 
 // Load events and any other local config
-var events = require('./events.json')
+var events = {};
+
+var getEvents = (id) => {
+  return events;
+}
+
+var reloadEvents = () => {
+  delete require.cache[require.resolve('./events.json')]
+  events = require('./events.json');
+}
+
+reloadEvents();
 
 //Setting up the port to listen to
 app.set('port', (process.env.PORT || 5000));
@@ -32,7 +43,7 @@ app.set('view engine', 'ejs');
 
 
 app.get('/', (req, res) => {
-	res.render('pages/index', { events });
+	res.render('pages/index', { events: getEvents('main') });
 });
 
 app.get('/example-clock', (req, res) => {
@@ -40,12 +51,11 @@ app.get('/example-clock', (req, res) => {
 });
 
 app.get('/events/list', (req, res) => {
-  res.send(events);
+  res.send(getEvents('main'));
 });
 
 app.get('/events/reload', (req, res) => {
-  delete require.cache[require.resolve('./events.json')]
-  events = require('./events.json');
+  reloadEvents();
   res.send({ status: 'success' });
 });
 
