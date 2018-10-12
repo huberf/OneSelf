@@ -120,22 +120,29 @@ if len(day_vals.keys()) == 0:
     print("Unfortunately that tracker could not be found.")
     sys.exit(0)
 
+# Note methodology used is that the furthest treated days are considered with the
+# least weight. The weight goes from 0 to 1 with even increases such that they sum
+# to 1/2 * number of events.
 avg_day = 0
+tracked_days = utils.tracked_days(events, min(day_vals.keys()))
 maxi = None
 mini = None
-for i in day_vals.keys():
+number_in = 0
+list_keys = [k for k in day_vals]
+for i in sorted(list_keys):
+    weight = number_in / len(day_vals.keys())
     if maxi == None or mini == None:
         maxi = day_vals[i]
         mini = day_vals[i]
-    avg_day += day_vals[i]
+    avg_day += day_vals[i]*weight
     if maxi < day_vals[i]:
         maxi = day_vals[i]
     if mini > day_vals[i]:
         mini = day_vals[i]
-days = utils.tracked_days(events, min(day_vals.keys()))
-avg_day /= days
+    number_in += 1
+avg_day /= (tracked_days/2)
 
-print("Days since first event: {0}".format(days))
+print("Days since first event: {0}".format(tracked_days))
 print("Avg per day: {0}".format(avg_day))
 print("Max: {0}".format(maxi))
 print("Min: {0}".format(mini))
