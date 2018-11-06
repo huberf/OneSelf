@@ -46,6 +46,10 @@ app.get('/', (req, res) => {
 	res.render('pages/index', { events: getEvents('main') });
 });
 
+app.get('/clock', (req, res) => {
+  res.render('pages/clock', { events: getEvents('main') });
+});
+
 app.get('/example-clock', (req, res) => {
 	res.render('pages/example');
 });
