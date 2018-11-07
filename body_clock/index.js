@@ -47,7 +47,11 @@ app.get('/', (req, res) => {
 });
 
 app.get('/clock', (req, res) => {
-  res.render('pages/clock', { events: getEvents('main') });
+  var width = req.query.width ? req.query.width : 1000;
+  var height = req.query.height ? req.query.height : 1000;
+  var width = width / 1000;
+  var height = height / 1000;
+  res.render('pages/clock', { events: getEvents('main'), width, height });
 });
 
 app.get('/example-clock', (req, res) => {
