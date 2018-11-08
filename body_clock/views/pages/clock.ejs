@@ -21,31 +21,31 @@ line {
     </style>
 <% var padding = 30; %>
     <div id="clock-box">
-      <svg xmlns="http://www.w3.org/2000/svg" width="1000" height="1000">
+      <svg xmlns="http://www.w3.org/2000/svg" width="<%= 1000*scale %>" height="<%= 1000*scale %>">
         <g>
-          <circle id="circle" style="stroke: black; fill: #f8f8f8;" cx="<%= 300 + padding %>" cy="<%= 300 + padding %>" r="300"></circle>
-          <image x="<%= padding + 100 %>" y="<%= padding + 100 %>" width="400" height="400" xlink:href="/vitruvian-man.png" />
+          <circle id="circle" style="stroke: black; fill: #f8f8f8;" cx="<%= (300 + padding)*scale %>" cy="<%= (300 + padding)*scale %>" r="<%= 300*scale %>"></circle>
+          <image x="<%= (padding + 100)*scale %>" y="<%= (padding + 100)*scale %>" width="(400)*scale" height="(400)*scale" xlink:href="/vitruvian-man.png" />
           <% for (var hour = 0; hour < 24; hour ++) { %>
           <%
     var around = hour / 24.0;
     var sin = Math.sin(around*2*3.141592654);
     var cos = Math.cos(around*2*3.141592654);
-    var x2 = 300*sin + 300 + padding;
-    var x1 = (300-30)*sin + 300 + padding;
-    var y2 = -(300)*cos + 300 + padding;
-    var y1 = -(300-30)*cos + 300 + padding;
+    var x2 = (300*sin + 300 + padding)*scale;
+    var x1 = ((300-30)*sin + 300 + padding)*scale;
+    var y2 = (-(300)*cos + 300 + padding)*scale;
+    var y1 = (-(300-30)*cos + 300 + padding)*scale;
 %>
           <line id="hour<%= i %>" x1="<%= x1 %>" y1="<%= y1 %>" x2="<%= x2 %>" y2="<%= y2 %>"></line>
           <% } %>
         </g>
         <g>
-        <text class="clockHour" x="<%= 605 + padding %>" y="<%= 300 + padding + 5 %>">6</text>
-        <text class="clockHour" x="<%= 300 + padding - 8 %>" y="<%= 615 + padding %>">12</text>
-        <text class="clockHour" x="<%= -20 + padding %>" y="<%= 300 + padding + 5 %>">18</text>
-        <text class="clockHour" x="<%= 300 + padding - 6 %>" y="<%= -5 + padding %>">24</text>
+        <text class="clockHour" x="<%= (605 + padding)*scale %>" y="<%= (300 + padding + 5)*scale %>">6</text>
+        <text class="clockHour" x="<%= (300 + padding - 8)*scale %>" y="<%= (615 + padding)*scale %>">12</text>
+        <text class="clockHour" x="<%= (-20 + padding)*scale %>" y="<%= (300 + padding + 5)*scale %>">18</text>
+        <text class="clockHour" x="<%= (300 + padding - 6)*scale %>" y="<%= (-5 + padding)*scale %>">24</text>
         </g>
         <g>
-        <line x1="<%= padding + 300 %>" y1="<%= padding + 300 %>" x2="<%= padding + 46.39691668109029 %>" y2="<%= padding + 326.6547581332516 %>" style="stroke-width: 4px; stroke: blue;" id="currenttime"></line>
+        <line x1="<%= (padding + 300)*scale %>" y1="<%= (padding + 300)*scale %>" x2="<%= (padding + 46.39691668109029)*scale %>" y2="<%= (padding + 326.6547581332516)*scale %>" style="stroke-width: 4px; stroke: blue;" id="currenttime"></line>
         </g>
         <g>
         <% for (var i = 0; i < events.length; i++) { %>

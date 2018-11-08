@@ -47,11 +47,8 @@ app.get('/', (req, res) => {
 });
 
 app.get('/clock', (req, res) => {
-  var width = req.query.width ? req.query.width : 1000;
-  var height = req.query.height ? req.query.height : 1000;
-  var width = width / 1000;
-  var height = height / 1000;
-  res.render('pages/clock', { events: getEvents('main'), width, height });
+  var scale = req.query.scale ? req.query.scale : 1;
+  res.render('pages/clock', { events: getEvents('main'), scale });
 });
 
 app.get('/example-clock', (req, res) => {
