@@ -69,18 +69,18 @@ var sinT = Math.sin(textPercent*2*3.141592654);
 var cosT = Math.cos(textPercent*2*3.141592654);
         %>
         <line class="eventLine" id="eventLine<%= i %>"
-          x1="<%= 200*sin1 + 300 + padding %>" y1="<%= -(200)*cos1 + 300 + padding %>"
-          x2="<%= 200*sin2 + 300 + padding %>" y2="<%= -(200)*cos2 + 300 + padding %>">
+          x1="<%= (200*sin1 + 300 + padding)*scale %>" y1="<%= (-(200)*cos1 + 300 + padding)*scale %>"
+          x2="<%= (200*sin2 + 300 + padding)*scale %>" y2="<%= (-(200)*cos2 + 300 + padding)*scale %>">
         </line>
         <line class="eventLine" id="eventLineToEdgeS<%= i %>"
-          x1="<%= 200*sin1 + 300 + padding %>" y1="<%= -(200)*cos1 + 300 + padding %>"
-          x2="<%= 300*sin1 + 300 + padding %>" y2="<%= -(300)*cos1 + 300 + padding %>">
+          x1="<%= (200*sin1 + 300 + padding)*scale %>" y1="<%= (-(200)*cos1 + 300 + padding)*scale %>"
+          x2="<%= (300*sin1 + 300 + padding)*scale %>" y2="<%= (-(300)*cos1 + 300 + padding)*scale %>">
         </line>
         <line class="eventLine" id="eventLineToEdgeE<%= i %>"
-          x1="<%= 200*sin2 + 300 + padding %>" y1="<%= -(200)*cos2 + 300 + padding %>"
-          x2="<%= 300*sin2 + 300 + padding %>" y2="<%= -(300)*cos2 + 300 + padding %>">
+          x1="<%= (200*sin2 + 300 + padding)*scale %>" y1="<%= (-(200)*cos2 + 300 + padding)*scale %>"
+          x2="<%= (300*sin2 + 300 + padding)*scale %>" y2="<%= (-(300)*cos2 + 300 + padding)*scale %>">
         </line>
-        <text transform="translate(<%= 200*sinT + 300 + padding %>,<%= -(200)*cosT + 300 + padding %>)rotate(<%= textPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
+        <text transform="translate(<%= (200*sinT + 300 + padding)*scale %>,<%= (-(200)*cosT + 300 + padding)*scale %>)rotate(<%= textPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } else { %>
         <%
 var timeParts = events[i].time.split(':');
@@ -89,10 +89,10 @@ var sin = Math.sin(beginPercent*2*3.141592654);
 var cos = Math.cos(beginPercent*2*3.141592654);
         %>
         <line class="eventLine" id="eventLineToEdgeE<%= i %>"
-          x1="<%= 300*sin + 300 + padding %>" y1="<%= -(300)*cos + 300 + padding %>"
-          x2="<%= 310*sin + 300 + padding %>" y2="<%= -(310)*cos + 300 + padding %>">
+          x1="<%= (300*sin + 300 + padding)*scale %>" y1="<%= (-(300)*cos + 300 + padding)*scale %>"
+          x2="<%= (310*sin + 300 + padding)*scale %>" y2="<%= (-(310)*cos + 300 + padding)*scale %>">
         </line>
-        <text transform="translate(<%= 320*sin + 300 + padding %>,<%= -(320)*cos + 300 + padding %>)rotate(<%= beginPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
+        <text transform="translate(<%= (320*sin + 300 + padding)*scale %>,<%= (-(320)*cos + 300 + padding)*scale %>)rotate(<%= beginPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         <% } %>
         </g>
@@ -112,8 +112,8 @@ function update_clock() {
   var y = Math.cos(fraction_around*3.1415*2)
   var x = Math.sin(fraction_around*3.1415*2)
   var element = document.getElementById('currenttime');
-  element.setAttribute('x2', x*290 + 300 + <%= padding %>);
-  element.setAttribute('y2', -y*290 + 300 + <%= padding %>);
+  element.setAttribute('x2', (x*290 + 300 + <%= padding %>)*<%= scale %>);
+  element.setAttribute('y2', (-y*290 + 300 + <%= padding %>)*<%= scale %>);
 }
 update_clock();
 setInterval(update_clock, 1000);
