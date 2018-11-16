@@ -3,20 +3,23 @@
 	<body>
     <style>
 line {
-  stroke-width: 3px;
+  stroke-width: <%= 3*scale %>px;
   stroke: black;
 }
 .eventLine {
-  stroke-width: 2px;
+  stroke-width: <%= 2*scale %>px;
   stroke: blue;
 }
 #clock-box {
-  padding-right: 100px;
-  padding-left: 100px;
+  padding-right: <%= 100*scale %>px;
+  padding-left: <%= 100*scale %>px;
 }
 .clockHour {
   font-weight: bold;
-  font-size: 18px;
+  font-size: <%= Math.round(18*scale) %>px;
+}
+.eventName {
+  font-size: <%= Math.round(16*scale) %>px;
 }
     </style>
 <% var padding = 30; %>
@@ -45,7 +48,7 @@ line {
         <text class="clockHour" x="<%= (300 + padding - 6)*scale %>" y="<%= (-5 + padding)*scale %>">24</text>
         </g>
         <g>
-        <line x1="<%= (padding + 300)*scale %>" y1="<%= (padding + 300)*scale %>" x2="<%= (padding + 46.39691668109029)*scale %>" y2="<%= (padding + 326.6547581332516)*scale %>" style="stroke-width: 4px; stroke: blue;" id="currenttime"></line>
+        <line x1="<%= (padding + 300)*scale %>" y1="<%= (padding + 300)*scale %>" x2="<%= (padding + 46.39691668109029)*scale %>" y2="<%= (padding + 326.6547581332516)*scale %>" style="stroke-width: <%= 4*scale %>px; stroke: blue;" id="currenttime"></line>
         </g>
         <g>
         <% for (var i = 0; i < events.length; i++) { %>
@@ -80,7 +83,7 @@ var cosT = Math.cos(textPercent*2*3.141592654);
           x1="<%= (200*sin2 + 300 + padding)*scale %>" y1="<%= (-(200)*cos2 + 300 + padding)*scale %>"
           x2="<%= (300*sin2 + 300 + padding)*scale %>" y2="<%= (-(300)*cos2 + 300 + padding)*scale %>">
         </line>
-        <text transform="translate(<%= (200*sinT + 300 + padding)*scale %>,<%= (-(200)*cosT + 300 + padding)*scale %>)rotate(<%= textPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
+        <text class="eventName" transform="translate(<%= (200*sinT + 300 + padding)*scale %>,<%= (-(200)*cosT + 300 + padding)*scale %>)rotate(<%= textPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } else { %>
         <%
 var timeParts = events[i].time.split(':');
@@ -92,7 +95,7 @@ var cos = Math.cos(beginPercent*2*3.141592654);
           x1="<%= (300*sin + 300 + padding)*scale %>" y1="<%= (-(300)*cos + 300 + padding)*scale %>"
           x2="<%= (310*sin + 300 + padding)*scale %>" y2="<%= (-(310)*cos + 300 + padding)*scale %>">
         </line>
-        <text transform="translate(<%= (320*sin + 300 + padding)*scale %>,<%= (-(320)*cos + 300 + padding)*scale %>)rotate(<%= beginPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
+        <text class="eventName" transform="translate(<%= (320*sin + 300 + padding)*scale %>,<%= (-(320)*cos + 300 + padding)*scale %>)rotate(<%= beginPercent*360 % 90 %>)" id="event<%= i %>"><%= events[i].name %></text>
         <% } %>
         <% } %>
         </g>
