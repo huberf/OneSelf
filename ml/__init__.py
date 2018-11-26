@@ -27,3 +27,16 @@ import tensorflow as tf
 from tensorflow.python.saved_model import tag_constants
 import random
 
+def build_model(in_size, out_size, hidden_layers=2, nodes_per_layer=16):
+    # reset underlying graph data
+    tf.reset_default_graph()
+    # Build neural network
+    net = tflearn.input_data(shape=[None, in_size])
+    for i in range(hidden_layers):
+        net = tflearn.fully_connected(net, nodes_per_layer)
+    net = tflearn.fully_connected(net, out_size, activation='softmax')
+    net = tflearn.regression(net)
+
+    # Define model and setup tensorboard
+    model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
+    return model
