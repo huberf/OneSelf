@@ -40,3 +40,18 @@ def build_model(in_size, out_size, hidden_layers=2, nodes_per_layer=16):
     # Define model and setup tensorboard
     model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
     return model
+
+def start_session():
+    sess = tf.Session()
+    return sess
+
+def get_saver():
+    saver = tf.train.Saver()
+    return saver
+
+
+if __name__ == '__main__':
+    sess = start_session()
+    model = build_model(10,2)
+    sess.run(model)
+    sess.close()
