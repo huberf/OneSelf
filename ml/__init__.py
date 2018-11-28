@@ -41,17 +41,19 @@ def build_model(in_size, out_size, hidden_layers=2, nodes_per_layer=16):
     model = tflearn.DNN(net, tensorboard_dir='tflearn_logs')
     return model
 
+def train_model(model, data_in, expected_out, epochs, batch_size=10):
+    model.fit(data_in, expected_out, n_epoch=epochs, batch_size=10, show_metric=True)
+    return model
+
 def start_session():
     sess = tf.Session()
     return sess
 
-def get_saver():
-    saver = tf.train.Saver()
-    return saver
-
-
 if __name__ == '__main__':
     sess = start_session()
     model = build_model(10,2)
-    sess.run(model)
+    data_in = [[1,0,1,0,1,0,1,0,1,0],
+               [1,1,1,1,0,0,0,0,0,0]]
+    expected_out = [[0,1],[1,0]]
+    model = train_model(model, data_in, expected_out, 10)
     sess.close()
