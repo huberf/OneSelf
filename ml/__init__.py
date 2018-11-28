@@ -49,6 +49,9 @@ def start_session():
     sess = tf.Session()
     return sess
 
+def save_model(model, file_name):
+    model.save(file_name)
+
 if __name__ == '__main__':
     sess = start_session()
     model = build_model(10,2)
@@ -56,4 +59,5 @@ if __name__ == '__main__':
                [1,1,1,1,0,0,0,0,0,0]]
     expected_out = [[0,1],[1,0]]
     model = train_model(model, data_in, expected_out, 10)
+    save_model(model, 'ml_model')
     sess.close()
