@@ -52,6 +52,9 @@ def start_session():
 def save_model(model, file_name):
     model.save(file_name)
 
+def load_model(file_name):
+    model = tf.keras.models.load_model(file_name)
+
 if __name__ == '__main__':
     sess = start_session()
     model = build_model(10,2)
@@ -61,3 +64,6 @@ if __name__ == '__main__':
     model = train_model(model, data_in, expected_out, 10)
     save_model(model, 'ml_model')
     sess.close()
+    
+    # Now test loading of model
+    load_model('ml_model')
