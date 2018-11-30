@@ -9,17 +9,6 @@ import os
 # Specific 3rd party library imports
 from os import listdir
 
-# Local imports
-try:
-    from utils import convo_reader
-except ModuleNotFoundError:
-    from clara.utils import convo_reader
-
-# ML specific library imports
-import nltk
-from nltk.stem.lancaster import LancasterStemmer
-stemmer = LancasterStemmer()
-
 # things we need for Tensorflow
 import numpy as np
 import tflearn
