@@ -54,6 +54,7 @@ def save_model(model, file_name):
 
 def load_model(file_name):
     model = tf.keras.models.load_model(file_name)
+    return model
 
 if __name__ == '__main__':
     sess = start_session()
@@ -62,8 +63,9 @@ if __name__ == '__main__':
                [1,1,1,1,0,0,0,0,0,0]]
     expected_out = [[0,1],[1,0]]
     model = train_model(model, data_in, expected_out, 10)
-    save_model(model, 'ml_model')
+    save_model(model, 'my_model.h5')
     sess.close()
     
     # Now test loading of model
-    load_model('ml_model')
+    new_model = load_model('my_model.h5')
+    new_model.summary()
