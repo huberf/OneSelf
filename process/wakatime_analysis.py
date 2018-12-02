@@ -15,36 +15,42 @@ except:
     print('Make sure you\'ve synced or exported your WakaTime')
     sys.exit()
 
+def calc_top_languages(days):
+    language_hours = {}
+    for i in days:
+        for lang in i['languages']:
+            try:
+                language_hours[lang['name']] += lang['total_seconds']
+            except:
+                language_hours[lang['name']] = lang['total_seconds']
+    top_language = None
+    top_time = 0
+    for i in language_hours.keys():
+        if top_time < language_hours[i]:
+            top_language = i
+            top_time = language_hours[i]
+    second_language = None
+    second_time = 0
+    for i in language_hours.keys():
+        if second_time < language_hours[i] and not language_hours[i] == top_time:
+            second_language = i
+            second_time = language_hours[i]
+    return [top_language, second_language]
+
 print(json_data['days'][0]['grand_total'].keys())
 # Gather overall metrics
 total_time = 0 # in seconds
-language_hours = {}
 for i in json_data['days']:
     total_time += i['grand_total']['total_seconds']
-    for lang in i['languages']:
-        try:
-            language_hours[lang['name']] += lang['total_seconds']
-        except:
-            language_hours[lang['name']] = lang['total_seconds']
-top_language = None
-top_time = 0
-for i in language_hours.keys():
-    if top_time < language_hours[i]:
-        top_language = i
-        top_time = language_hours[i]
-second_language = None
-second_time = 0
-for i in language_hours.keys():
-    if second_time < language_hours[i] and not language_hours[i] == top_time:
-        second_language = i
-        second_time = language_hours[i]
+languages = calc_top_languages(json_data['days'])
 print('Total Hours:', total_time/(60*60))
-print('All-Time Top Languages: 1)', top_language, '2)', second_language)
+print('All-Time Top Languages: 1)', languages[0], '2)', languages[1])
 
 # Gather last month metrics
 num_days = len(json_data['days'])
 total_time = 0
 for i in json_data['days'][num_days-31:num_days]:
     total_time += i['grand_total']['total_seconds']
+languages = calc_top_languages(json_data['days'][num_days-31:num_days])
 print('Last Month Hours:', total_time/(60*60))
-
+print('Last Month Top Languages: 1)', languages[0], '2)', languages[1])
