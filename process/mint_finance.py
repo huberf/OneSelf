@@ -1,6 +1,8 @@
 import sys
 from os import path
+import datetime
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
+import utils
 import utils.loadConfig
 
 import csv
@@ -31,6 +33,17 @@ def load_data():
             transaction['net'] = float(row[3])
         transaction_data += [transaction]
     return { 'transactions': transaction_data }
+
+def last_days_data(data, days):
+    for i in data['transactions']:
+        comp_date = i['date']
+        day = comp_date.split('/')[1]
+        month = comp_date.split('/')[0]
+        year = comp_date.split('/')[2]
+        comp_date = datetime.datetime(day=int(day), month=int(month), year=int(year))
+        if utils.is_within_days(comp_date, days):
+            yield i
+    
 
 # By count or value
 def category_count(data, type='count'):
@@ -63,6 +76,7 @@ def top_category(data, type='count'):
 
 if __name__ == '__main__':
     data = load_data()
+    last_month = list(last_days_data(data, 30))
     # Now show off what we can do
     print('Top category by count: ', top_category(data))
     print('Top category by value: ', top_category(data, 'value'))
