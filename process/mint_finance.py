@@ -77,6 +77,10 @@ def top_category(data, type='count'):
 if __name__ == '__main__':
     data = load_data()
     last_month = list(last_days_data(data, 30))
+    last_month_data = { 'transactions': last_month }
     # Now show off what we can do
     print('Top category by count: ', top_category(data))
     print('Top category by value: ', top_category(data, 'value'))
+    # Now show month level data
+    print('Top Monthly category by count: ', top_category(last_month_data))
+    print('Top Monthly category by value: ', top_category(last_month_data, 'value'))
