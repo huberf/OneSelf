@@ -74,6 +74,12 @@ def top_category(data, type='count'):
             max_categories += [i]
     return max_categories
 
+def spending(data):
+    total_sum = 0
+    for i in data['transactions']:
+        total_sum += i['amount']
+    return total_sum
+
 if __name__ == '__main__':
     data = load_data()
     last_month = list(last_days_data(data, 30))
@@ -84,3 +90,4 @@ if __name__ == '__main__':
     # Now show month level data
     print('Top Monthly category by count: ', top_category(last_month_data))
     print('Top Monthly category by value: ', top_category(last_month_data, 'value'))
+    print('Last month spending: ', spending(last_month_data))
