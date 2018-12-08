@@ -77,7 +77,15 @@ def top_category(data, type='count'):
 def spending(data):
     total_sum = 0
     for i in data['transactions']:
-        total_sum += i['amount']
+        if i['net'] > 0:
+            total_sum += i['amount']
+    return total_sum
+
+def earnings(data):
+    total_sum = 0
+    for i in data['transactions']:
+        if i['net'] < 0:
+            total_sum += i['amount']
     return total_sum
 
 if __name__ == '__main__':
@@ -91,3 +99,4 @@ if __name__ == '__main__':
     print('Top Monthly category by count: ', top_category(last_month_data))
     print('Top Monthly category by value: ', top_category(last_month_data, 'value'))
     print('Last month spending: ', spending(last_month_data))
+    print('Last month earnings: ', earnings(last_month_data))
