@@ -27,20 +27,23 @@ def calc_top_languages(days):
     sorted_list.reverse()
     return sorted_list
 
+def calc_total_time(days):
+    total_time = 0 # in seconds
+    for i in days:
+        total_time += i['grand_total']['total_seconds']
+    return total_time
+
 print(json_data['days'][0]['grand_total'].keys())
 # Gather overall metrics
-total_time = 0 # in seconds
-for i in json_data['days']:
-    total_time += i['grand_total']['total_seconds']
+total_time = calc_total_time(json_data['days']) # in seconds
 languages = calc_top_languages(json_data['days'])
 print('Total Hours:', total_time/(60*60))
 print('All-Time Top Languages: 1)', languages[0][0], '2)', languages[1][0])
 
+
 # Gather last month metrics
 num_days = len(json_data['days'])
-total_time = 0
-for i in json_data['days'][num_days-31:num_days]:
-    total_time += i['grand_total']['total_seconds']
+total_time = calc_total_time(json_data['days'][num_days-31:num_days])
 languages = calc_top_languages(json_data['days'][num_days-31:num_days])
 print('Last Month Hours:', total_time/(60*60))
 print('Last Month Top Languages: 1)', languages[0][0], '2)', languages[1][0])
