@@ -33,6 +33,19 @@ def calc_total_time(days):
         total_time += i['grand_total']['total_seconds']
     return total_time
 
+def most_edited_files(days):
+    file_hours = {}
+    for j in days:
+        for k in j['projects']:
+            for i in k['entities']:
+                try:
+                    file_hours[i['name']] += i['total_seconds']
+                except:
+                    file_hours[i['name']] = i['total_seconds']
+    sorted_list = sorted(file_hours.items(), key=lambda kv: kv[1])
+    sorted_list.reverse()
+    return sorted_list
+
 print(json_data['days'][0]['grand_total'].keys())
 # Gather overall metrics
 total_time = calc_total_time(json_data['days']) # in seconds
@@ -47,3 +60,4 @@ total_time = calc_total_time(json_data['days'][num_days-31:num_days])
 languages = calc_top_languages(json_data['days'][num_days-31:num_days])
 print('Last Month Hours:', total_time/(60*60))
 print('Last Month Top Languages: 1)', languages[0][0], '2)', languages[1][0])
+print('Most Edited File This Month:', most_edited_files(json_data['days'][num_days-31:num_days])[0][0])
