@@ -46,6 +46,16 @@ def most_edited_files(days):
     sorted_list.reverse()
     return sorted_list
 
+def weekend_weekday_percentage(days):
+    weekend_time = 0
+    weekday_time = 0
+    for i in days:
+        date = i['date']
+    if not weekday_time == 0:
+        return weekend_time/weekday_time
+    else:
+        return -1
+
 print(json_data['days'][0]['grand_total'].keys())
 # Gather overall metrics
 total_time = calc_total_time(json_data['days']) # in seconds
@@ -61,3 +71,4 @@ languages = calc_top_languages(json_data['days'][num_days-31:num_days])
 print('Last Month Hours:', total_time/(60*60))
 print('Last Month Top Languages: 1)', languages[0][0], '2)', languages[1][0])
 print('Most Edited File This Month:', most_edited_files(json_data['days'][num_days-31:num_days])[0][0])
+print('Weekend Coding Percentage: {0}%'.format(weekend_weekday_percentage(json_data['days'][num_days-31:num_days])*100))
