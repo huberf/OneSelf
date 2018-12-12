@@ -51,8 +51,16 @@ def weekend_weekday_percentage(days):
     weekday_time = 0
     for i in days:
         date = i['date']
+        vals = date.split('-')
+        year = int(vals[0])
+        month = int(vals[1])
+        day = int(vals[2])
+        if datetime.datetime(year, month, day).weekday() > 4:
+            weekend_time += i['grand_total']['total_seconds']
+        else:
+            weekday_time += i['grand_total']['total_seconds']
     if not weekday_time == 0:
-        return weekend_time/weekday_time
+        return weekend_time/(weekday_time+weekend_time)
     else:
         return -1
 
@@ -71,4 +79,4 @@ languages = calc_top_languages(json_data['days'][num_days-31:num_days])
 print('Last Month Hours:', total_time/(60*60))
 print('Last Month Top Languages: 1)', languages[0][0], '2)', languages[1][0])
 print('Most Edited File This Month:', most_edited_files(json_data['days'][num_days-31:num_days])[0][0])
-print('Weekend Coding Percentage: {0}%'.format(weekend_weekday_percentage(json_data['days'][num_days-31:num_days])*100))
+print('Weekend Coding Percentage: {0:.2f}%'.format(weekend_weekday_percentage(json_data['days'][num_days-31:num_days])*100))
