@@ -19,10 +19,17 @@ BASELINE_METRICS = {
     'calories': 2200,
     'carbohydrates': 300,
     'fat': 65,
-    'protein': 50,
-    'sodium': 2.4,
-    'sugar': 0
+    'protein': 56,
+    'sodium': 2400,
+    'sugar': 50
 }
+
+def remove_untracked_days(days):
+    to_return = []
+    for i in days:
+        if not i['day']['totals'] == {}:
+            to_return += [i]
+    return to_return
 
 def current_health(data):
     day_data = data['data']
@@ -30,7 +37,7 @@ def current_health(data):
     bottom = len(day_data) - 8
     if bottom < 0:
         bottom = 0
-    last_seven_days = day_data[bottom:top]
+    last_seven_days = remove_untracked_days(day_data[bottom:top])
     # Check how you compare to recommended nutrient values
     for j in BASELINE_METRICS.keys():
         value_sum = 0
@@ -39,13 +46,13 @@ def current_health(data):
                 value_sum += i['day']['totals'][j]
             except KeyError:
                 pass
-        days = top - bottom
+        days = len(last_seven_days)
         value_avg = value_sum / days
         expected_intake = BASELINE_METRICS[j]
         if abs(0 if expected_intake == 0 else value_avg/expected_intake) > 2:
             print('RED ALERT: You averaged {0} {name} per day in the last week but expected to average {1}.'.format(value_avg, expected_intake, name=j))
         else:
-            print('You averaged {0} {name} per day in the last week compared to expected {1}.'.format(value_avg, expected_intake, name=j))
+            print('You averaged {0:.1f} {name} per day in the last week compared to expected {1:.1f}.'.format(value_avg, expected_intake, name=j))
     return
 
 def recent_changes(data):
@@ -54,12 +61,12 @@ def recent_changes(data):
     bottom = len(day_data) - 8
     if bottom < 0:
         bottom = 0
-    last_week = day_data[bottom:top]
+    last_week = remove_untracked_days(day_data[bottom:top])
     top = bottom
     bottom = top - 7*3
     if bottom < 0:
         bottom = 0
-    three_weeks_before = day_data[bottom:top]
+    three_weeks_before = remove_untracked_days(day_data[bottom:top])
     recent_norms = {}
     historical_norms = {}
     for i in BASELINE_METRICS.keys():
@@ -78,9 +85,9 @@ def recent_changes(data):
             except KeyError:
                 pass
     for i in recent_norms.keys():
-        recently = recent_norms[i]/7.0
-        historically = historical_norms[i]/(7.0*3)
-        print('Recently you had {0} {1} vs. historically having {2}'.format(recently, i, historically))
+        recently = recent_norms[i]/len(last_week)
+        historically = historical_norms[i]/len(three_weeks_before)
+        print('Recently you had {0:.1f} {1} vs. historically having {2:.1f}'.format(recently, i, historically))
     return
 
 def longterm_health(data):
@@ -93,6 +100,7 @@ def longterm_health(data):
     year_norms = {}
     for i in BASELINE_METRICS.keys():
         year_norms[i] = 0
+    last_year = remove_untracked_days(last_year)
     for i in last_year:
         for j in year_norms.keys():
             try:
@@ -102,7 +110,7 @@ def longterm_health(data):
     num_entries = len(last_year)
     for i in year_norms.keys():
         year_day_avg = year_norms[i]/num_entries
-        print('Year average for {0} is {1}'.format(i, year_day_avg))
+        print('Year average for {0} is {1:.1f}'.format(i, year_day_avg))
     return
 
 current_health(json_data)
