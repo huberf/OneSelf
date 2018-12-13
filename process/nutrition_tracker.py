@@ -35,7 +35,10 @@ def current_health(data):
     for j in BASELINE_METRICS.keys():
         value_sum = 0
         for i in last_seven_days:
-            value_sum += i['day']['totals'][j]
+            try:
+                value_sum += i['day']['totals'][j]
+            except KeyError:
+                pass
         days = top - bottom
         value_avg = value_sum / days
         expected_intake = BASELINE_METRICS[j]
@@ -64,10 +67,16 @@ def recent_changes(data):
         historical_norms[i] = 0
     for i in last_week:
         for j in recent_norms.keys():
-            recent_norms[j] += i['day']['totals'][j]
+            try:
+                recent_norms[j] += i['day']['totals'][j]
+            except KeyError:
+                pass
     for i in three_weeks_before:
         for j in historical_norms.keys():
-            historical_norms[j] += i['day']['totals'][j]
+            try:
+                historical_norms[j] += i['day']['totals'][j]
+            except KeyError:
+                pass
     for i in recent_norms.keys():
         recently = recent_norms[i]/7.0
         historically = historical_norms[i]/(7.0*3)
@@ -75,6 +84,25 @@ def recent_changes(data):
     return
 
 def longterm_health(data):
+    day_data = data['data']
+    bottom = len(day_data) - 365
+    if bottom < 0:
+        bottom = 0
+    top = len(day_data)
+    last_year = day_data[bottom:top]
+    year_norms = {}
+    for i in BASELINE_METRICS.keys():
+        year_norms[i] = 0
+    for i in last_year:
+        for j in year_norms.keys():
+            try:
+                year_norms[j] += i['day']['totals'][j]
+            except KeyError:
+                pass # Normal for day to not have some values
+    num_entries = len(last_year)
+    for i in year_norms.keys():
+        year_day_avg = year_norms[i]/num_entries
+        print('Year average for {0} is {1}'.format(i, year_day_avg))
     return
 
 current_health(json_data)
