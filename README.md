@@ -67,6 +67,16 @@ steps to collect the data.
 4. You can now execute `python3 process/trakt_tv.py` to analyze your viewing
    habits.
 
+
+### Goodreads
+
+The current implementation requires a manual export.
+1. Visit
+   [https://www.goodreads.com/review/import](https://www.goodreads.com/review/import)
+   and press "Export Library".
+2. Take the exported file and place in `records/` with the name
+   `goodreads_library_export.csv`.
+
 ### Coming soon(er or later)
 * Garmin
 * Nomie
@@ -76,7 +86,6 @@ steps to collect the data.
 * Welltory
 * Moves
 * Gyroscope
-* Goodreads
 
 ### Philosophy
 Health science and productivity are bound to improve when millions of
