@@ -55,14 +55,24 @@ In the settings section, request your full data export. Place the unzipped
 Our sync method uses the last.fm API and will require some authentication on
 your end.
 
+
+### Trak.tv
+
+You need Trakt.tv VIP to do CSV exports. Once you have that, follow the below
+steps to collect the data.
+1. Visit https://trakt.tv/users/USER_NAME/history replacing USER_NAME with
+   your username.
+2. Press the CSV export button.
+3. Place the export file in `records/` and name it `trakt.csv`
+4. You can now execute `python3 process/trakt_tv.py` to analyze your viewing
+   habits.
+
 ### Coming soon(er or later)
 * Garmin
 * Nomie
 * Last.fm
 * Strava
-* WakaTime
 * RescueTime
-* Trakt.tv
 * Welltory
 * Moves
 * Gyroscope
