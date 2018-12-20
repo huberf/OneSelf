@@ -53,7 +53,10 @@ In the settings section, request your full data export. Place the unzipped
 ### Last.fm
 
 Our sync method uses the last.fm API and will require some authentication on
-your end.
+your end. We use the `lastpy` package which requires additional setup and can
+be viewed at
+[github.com/huberf/lastfm-scrobbler](https://github.com/huberf/lastfm-scrobbler)
+Once setup, merely run `python3 sync/getLastfm.py`.
 
 
 ### Trak.tv
