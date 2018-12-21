@@ -29,9 +29,27 @@ def load_data():
             'trakt_rating': row[5],
             'trakt_id': row[6],
             'imdb_id': row[7],
-            'tmdb_id': row[8] # TODO: Add more
+            'tmdb_id': row[8],
+            'tvdb_id': row[9],
+            'url': row[10],
+            'released': row[11],
+            'runtime': float(row[12]) # TODO: Add more
             }
         record_data += [record]
     return { 'records': record_data }
 
+def year_avg_watchtime(data, just_tv=False):
+    total_time = 0
+    current = datetime.datetime.now()
+    for i in data['records']:
+        if (not just_tv or i['type'] == 'episode'):
+            if i['watched_at'][0:4] == str(datetime.datetime.now().year):
+                total_time += i['runtime']
+    days = (datetime.date.today() - datetime.date(current.year, 1, 1)).days
+    average_per_day = float(total_time) / days
+    hours_per_day = average_per_day/60
+    return hours_per_day
+
 data = load_data()
+print('Average Watchtime Per Day (Past Year): {0:.2f}'.format(year_avg_watchtime(data)))
+print('Average TV Watchtime Per Day (Past Year): {0:.2f}'.format(year_avg_watchtime(data, True)))
