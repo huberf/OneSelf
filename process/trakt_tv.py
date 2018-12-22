@@ -50,6 +50,23 @@ def year_avg_watchtime(data, just_tv=False):
     hours_per_day = average_per_day/60
     return hours_per_day
 
+def top_shows(data, mode='watchtime'):
+    show_to_weight = {}
+    if mode == 'watchtime':
+        for i in data['records']:
+            if i['type'] == 'episode':
+                try:
+                    show_to_weight[i['title']] += i['runtime']
+                except:
+                    show_to_weight[i['title']] = i['runtime']
+    sorted_list = sorted(show_to_weight.items(), key=lambda kv: kv[1])
+    sorted_list.reverse()
+    return sorted_list
+
 data = load_data()
 print('Average Watchtime Per Day (Past Year): {0:.2f}'.format(year_avg_watchtime(data)))
 print('Average TV Watchtime Per Day (Past Year): {0:.2f}'.format(year_avg_watchtime(data, True)))
+show_list = top_shows(data, 'watchtime')
+print('Top Shows:\n\t1) {0} at {1:.1f} hours\n\t2) {2} at {3:.1f} hours\n\t3) {4} at {5:.2f} hours'.format(
+    show_list[0][0], show_list[0][1]/60, show_list[1][0], show_list[1][1]/60, show_list[2][0], show_list[2][1]/60
+))
