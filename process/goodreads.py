@@ -34,3 +34,7 @@ def load_data():
         for i,val in enumerate(keys):
             books[val] = row[i]
     return { 'books': books }
+
+data = load_data()
+book_count = len(data['books'])
+print('Books Read: {0}'.format(book_count))
