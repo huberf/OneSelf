@@ -12,6 +12,7 @@ def load_data():
     data_reader = csv.reader(data_file)
     transaction_data = []
     first_row = True
+    books = []
     for row in data_reader:
         if first_row:
             first_row = False
@@ -30,11 +31,23 @@ def load_data():
                 'recommended_for', 'recommended_by', 'owned_copies', 'original_purchase_date',
                 'original_purchase_location', 'condition', 'condition_description', 'bcid'
                 ]
-        books = { }
+        book = { }
         for i,val in enumerate(keys):
-            books[val] = row[i]
+            book[val] = row[i]
+        books += [book]
     return { 'books': books }
+
+def books_in_year(books, year):
+    count = 0
+    for i in books:
+        if len(i['date_read']) > 4:
+            book_year = i['date_read'][0:4]
+            if book_year == year:
+                count += 1
+    return count
+
 
 data = load_data()
 book_count = len(data['books'])
 print('Books Read: {0}'.format(book_count))
+print('Books in Past Year: {0}'.format(books_in_year(data['books'], '2018')))
