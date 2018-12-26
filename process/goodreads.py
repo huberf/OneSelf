@@ -48,11 +48,18 @@ def books_in_year(books, year):
 
 def books_in_past_year(books):
     year = str(datetime.datetime.now().year)
-    print(year)
     return books_in_year(books, year)
+
+def projected_reading(books):
+    current_count = books_in_past_year(books)
+    current = datetime.datetime.now()
+    days = (datetime.date.today() - datetime.date(current.year, 1, 1)).days
+    percent_through = float(days)/365
+    return current_count/percent_through
 
 
 data = load_data()
 book_count = len(data['books'])
 print('Books Read: {0}'.format(book_count))
 print('Books in Past Year: {0}'.format(books_in_past_year(data['books'])))
+print('Projected Year Count: {0:.0f}'.format(projected_reading(data['books'])))
