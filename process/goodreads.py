@@ -46,8 +46,13 @@ def books_in_year(books, year):
                 count += 1
     return count
 
+def books_in_past_year(books):
+    year = str(datetime.datetime.now().year)
+    print(year)
+    return books_in_year(books, year)
+
 
 data = load_data()
 book_count = len(data['books'])
 print('Books Read: {0}'.format(book_count))
-print('Books in Past Year: {0}'.format(books_in_year(data['books'], '2018')))
+print('Books in Past Year: {0}'.format(books_in_past_year(data['books'])))
