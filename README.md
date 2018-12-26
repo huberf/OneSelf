@@ -79,6 +79,8 @@ The current implementation requires a manual export.
    and press "Export Library".
 2. Take the exported file and place in `records/` with the name
    `goodreads_library_export.csv`.
+3. To see interesting statistics and insights simply run `python3
+   process/goodreads.py` from the root project directory.
 
 ### Coming soon(er or later)
 * Garmin
