@@ -57,9 +57,19 @@ def projected_reading(books):
     percent_through = float(days)/365
     return current_count/percent_through
 
+def avg_page_count(books):
+    count = 0
+    pages = 0
+    for i in books:
+        pages += int(i['number_of_pages'])
+        count += 1
+    return float(pages) / count
+
+
 
 data = load_data()
 book_count = len(data['books'])
 print('Books Read: {0}'.format(book_count))
 print('Books in Past Year: {0}'.format(books_in_past_year(data['books'])))
+print('Avg Page Count: {0:.1f}'.format(avg_page_count(data['books'])))
 print('Projected Year Count: {0:.0f}'.format(projected_reading(data['books'])))
