@@ -1,0 +1,10 @@
+{
+  "header": {
+    "html": "<h1>{0}</h1>",
+    "num_args": 1
+  },
+  "big_num": {
+    "html": "<p>{0}: {1}</p>",
+    "num_args": 2
+  }
+}
