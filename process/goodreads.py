@@ -4,6 +4,7 @@ import datetime
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 import utils
 import utils.loadConfig
+import generator
 
 import csv
 
@@ -73,3 +74,11 @@ print('Books Read: {0}'.format(book_count))
 print('Books in Past Year: {0}'.format(books_in_past_year(data['books'])))
 print('Avg Page Count: {0:.1f}'.format(avg_page_count(data['books'])))
 print('Projected Year Count: {0:.0f}'.format(projected_reading(data['books'])))
+
+# Now generate HTML report
+parts = [
+        ['header', ['Goodreads Report']],
+        ['big_num', ['Books Read', book_count]],
+        ['paragraph', ['Last Updated: {0}'.format(datetime.datetime.now())]]
+        ]
+generator.build_report('goodreads_main', parts)
