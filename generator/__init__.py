@@ -12,10 +12,14 @@ def build_index(report_list):
   </head>
   <body>
     <h1>OneSelf Report List</h1>
+    <ul>
     {0}
+    </ul>
   </body>
 </html>'''
     list_html = ''
+    for i in report_list:
+        list_html += '<li><a href="{0}">{1}</a></li>'.format(i[1], i[0])
     contents = body.format(list_html)
     open('html/index.html', 'w').write(contents)
 
