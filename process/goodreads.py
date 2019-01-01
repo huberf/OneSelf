@@ -56,7 +56,10 @@ def projected_reading(books):
     current = datetime.datetime.now()
     days = (datetime.date.today() - datetime.date(current.year, 1, 1)).days
     percent_through = float(days)/365
-    return current_count/percent_through
+    if percent_through > 0:
+        return current_count/percent_through
+    else:
+        return 0
 
 def avg_page_count(books):
     count = 0
@@ -64,14 +67,18 @@ def avg_page_count(books):
     for i in books:
         pages += int(i['number_of_pages'])
         count += 1
-    return float(pages) / count
+    if count > 0:
+        return float(pages) / count
+    else:
+        return 0
 
 
 
 data = load_data()
 book_count = len(data['books'])
 print('Books Read: {0}'.format(book_count))
-print('Books in Past Year: {0}'.format(books_in_past_year(data['books'])))
+this_year_book_count = books_in_past_year(data['books'])
+print('Books in Past Year: {0}'.format(this_year_book_count))
 print('Avg Page Count: {0:.1f}'.format(avg_page_count(data['books'])))
 print('Projected Year Count: {0:.0f}'.format(projected_reading(data['books'])))
 
@@ -79,6 +86,6 @@ print('Projected Year Count: {0:.0f}'.format(projected_reading(data['books'])))
 parts = [
         ['header', ['Goodreads Report']],
         ['big_num', ['Books Read', book_count]],
-        ['paragraph', ['Last Updated: {0}'.format(datetime.datetime.now())]]
+        ['big_num', ['Books in Past Year', this_year_book_count]]
         ]
 generator.build_report('goodreads_main', parts)

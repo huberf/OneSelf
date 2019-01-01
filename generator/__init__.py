@@ -1,4 +1,5 @@
 import json
+import datetime
 
 parts = json.loads(open('generator/parts.json', 'r').read())
 
@@ -9,6 +10,7 @@ def build_index(report_list):
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
     <h1>OneSelf Report List</h1>
@@ -31,9 +33,12 @@ def build_report(name, contents):
 <html lang="en">
   <head>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    {0}
+    <div class="main-container">
+      {0}
+    </div>
   </body>
 </html>'''
     inside_contents = ""
@@ -43,6 +48,8 @@ def build_report(name, contents):
             print('Argument conflict')
             pass
         inside_contents += template['html'].format(*item[1])
+        inside_contents += '<div class="divider"></div>'
+    inside_contents += parts['paragraph']['html'].format('Last Updated: {0}'.format(datetime.datetime.now()))
     contents = body.format(inside_contents)
     file_name = 'html/{0}.html'.format(name)
     open(file_name, 'w').write(contents)
