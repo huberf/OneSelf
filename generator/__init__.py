@@ -13,10 +13,12 @@ def build_index(report_list):
     <link rel="stylesheet" href="main.css">
   </head>
   <body>
-    <h1>OneSelf Report List</h1>
-    <ul>
-    {0}
-    </ul>
+    <div class="main-container">
+      <h1>OneSelf Report List</h1>
+      <ul>
+      {0}
+      </ul>
+    </div>
   </body>
 </html>'''
     list_html = ''
@@ -50,6 +52,7 @@ def build_report(name, contents):
         inside_contents += template['html'].format(*item[1])
         inside_contents += '<div class="divider"></div>'
     inside_contents += parts['paragraph']['html'].format('Last Updated: {0}'.format(datetime.datetime.now()))
+    inside_contents += parts['link']['html'].format('index.html', 'Back to Report List')
     contents = body.format(inside_contents)
     file_name = 'html/{0}.html'.format(name)
     open(file_name, 'w').write(contents)

@@ -3,12 +3,24 @@
     "html": "<h1>{0}</h1>",
     "num_args": 1
   },
+  "subheader": {
+    "html": "<h3>{0}</h3>",
+    "num_args": 1
+  },
   "paragraph": {
     "html": "<p>{0}</p>",
     "num_args": 1
   },
+  "link": {
+    "html": "<a href=\"{0}\">{1}",
+    "num_args": 2
+  },
   "big_num": {
     "html": "<p>{0}: {1}</p>",
     "num_args": 2
+  },
+  "top3": {
+    "html": "<h3>{0}</h3><ol><li>{1}</li><li>{2}</li><li>{3}</li></ol>",
+    "num_args": 4
   }
 }
