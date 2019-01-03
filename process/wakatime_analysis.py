@@ -6,6 +6,7 @@ from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
 import utils
+import generator
 
 config = loadConfig.getConfig()
 
@@ -66,17 +67,28 @@ def weekend_weekday_percentage(days):
 
 print(json_data['days'][0]['grand_total'].keys())
 # Gather overall metrics
+num_days = len(json_data['days'])
 total_time = calc_total_time(json_data['days']) # in seconds
 languages = calc_top_languages(json_data['days'])
 print('Total Hours:', total_time/(60*60))
 print('All-Time Top Languages: 1)', languages[0][0], '2)', languages[1][0])
+bottom = num_days-365
+if bottom < 0:
+    bottom = 0
+print('Hours Last Year:', calc_total_time(json_data['days'][bottom:num_days])/(60*60))
 
 
 # Gather last month metrics
-num_days = len(json_data['days'])
 total_time = calc_total_time(json_data['days'][num_days-31:num_days])
 languages = calc_top_languages(json_data['days'][num_days-31:num_days])
 print('Last Month Hours:', total_time/(60*60))
 print('Last Month Top Languages: 1)', languages[0][0], '2)', languages[1][0])
 print('Most Edited File This Month:', most_edited_files(json_data['days'][num_days-31:num_days])[0][0])
 print('Weekend Coding Percentage: {0:.2f}%'.format(weekend_weekday_percentage(json_data['days'][num_days-31:num_days])*100))
+
+# Now generate HTML report
+parts = [
+        ['header', ['Wakatime Report']],
+        ['big_num', ['Last Month Hours', total_time/(60*60)]]
+        ]
+generator.build_report('wakatime_main', parts)
