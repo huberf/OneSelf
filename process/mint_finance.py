@@ -4,6 +4,7 @@ import datetime
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 import utils
 import utils.loadConfig
+import generator
 
 import csv
 
@@ -98,5 +99,14 @@ if __name__ == '__main__':
     # Now show month level data
     print('Top Monthly category by count: ', top_category(last_month_data))
     print('Top Monthly category by value: ', top_category(last_month_data, 'value'))
-    print('Last month spending: ', spending(last_month_data))
-    print('Last month earnings: ', earnings(last_month_data))
+    last_month_spending = spending(last_month_data)
+    print('Last month spending: ', last_month_spending)
+    last_month_earnings = earnings(last_month_data)
+    print('Last month earnings: ', last_month_earnings)
+    # Now generate HTML report
+    parts = [
+            ['header', ['Mint Finance Report']],
+            ['big_num', ['Last month spendings', '$' + str(last_month_spending)]],
+            ['big_num', ['Last month earnings', '$' + str(last_month_earnings)]]
+            ]
+    generator.build_report('mint_main', parts)
