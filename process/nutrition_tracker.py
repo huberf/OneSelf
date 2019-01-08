@@ -6,8 +6,16 @@ from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
 import utils
+import generator
 
 config = loadConfig.getConfig()
+
+html_parts = []
+def add_message(text):
+    global html_parts
+    print(text)
+    html_parts += [ ['paragraph', [text] ] ]
+
 
 try:
     json_data = utils.load_record_json('myfitnesspal-food.json')
@@ -50,9 +58,9 @@ def current_health(data):
         value_avg = value_sum / days
         expected_intake = BASELINE_METRICS[j]
         if abs(0 if expected_intake == 0 else value_avg/expected_intake) > 2:
-            print('RED ALERT: You averaged {0} {name} per day in the last week but expected to average {1}.'.format(value_avg, expected_intake, name=j))
+            add_message('RED ALERT: You averaged {0} {name} per day in the last week but expected to average {1}.'.format(value_avg, expected_intake, name=j))
         else:
-            print('You averaged {0:.1f} {name} per day in the last week compared to expected {1:.1f}.'.format(value_avg, expected_intake, name=j))
+            add_message('You averaged {0:.1f} {name} per day in the last week compared to expected {1:.1f}.'.format(value_avg, expected_intake, name=j))
     return
 
 def recent_changes(data):
@@ -87,7 +95,7 @@ def recent_changes(data):
     for i in recent_norms.keys():
         recently = recent_norms[i]/len(last_week)
         historically = historical_norms[i]/len(three_weeks_before)
-        print('Recently you had {0:.1f} {1} vs. historically having {2:.1f}'.format(recently, i, historically))
+        add_message('Recently you had {0:.1f} {1} vs. historically having {2:.1f}'.format(recently, i, historically))
     return
 
 def longterm_health(data):
@@ -110,9 +118,16 @@ def longterm_health(data):
     num_entries = len(last_year)
     for i in year_norms.keys():
         year_day_avg = year_norms[i]/num_entries
-        print('Year average for {0} is {1:.1f}'.format(i, year_day_avg))
+        add_message('Year average for {0} is {1:.1f}'.format(i, year_day_avg))
     return
 
 current_health(json_data)
 recent_changes(json_data)
 longterm_health(json_data)
+
+# Now generate HTML report
+parts = [
+        ['header', ['Nutrition Report']],
+        ]
+parts += html_parts
+generator.build_report('nutrition_main', parts)
