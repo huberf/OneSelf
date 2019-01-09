@@ -22,5 +22,9 @@
   "top3": {
     "html": "<h3>{0}</h3><ol><li>{1}</li><li>{2}</li><li>{3}</li></ol>",
     "num_args": 4
+  },
+  "image": {
+    "html": "<img class=\"data_img\" src=\"{0}\" />",
+    "num_args": 1
   }
 }
