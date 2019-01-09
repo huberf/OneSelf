@@ -1,5 +1,6 @@
 import json
 import datetime
+import os
 
 parts = json.loads(open('generator/parts.json', 'r').read())
 
@@ -56,3 +57,8 @@ def build_report(name, contents):
     contents = body.format(inside_contents)
     file_name = 'html/{0}.html'.format(name)
     open(file_name, 'w').write(contents)
+
+def check_figure_directory():
+    directory = 'html/figures'
+    if not os.path.exists(directory):
+        os.makedirs(directory)
