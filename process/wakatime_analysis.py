@@ -81,14 +81,20 @@ print('Hours Last Year:', calc_total_time(json_data['days'][bottom:num_days])/(6
 # Gather last month metrics
 total_time = calc_total_time(json_data['days'][num_days-31:num_days])
 languages = calc_top_languages(json_data['days'][num_days-31:num_days])
-print('Last Month Hours:', total_time/(60*60))
+last_month_hours = total_time/(60*60)
+print('Last Month Hours:', last_month_hours)
 print('Last Month Top Languages: 1)', languages[0][0], '2)', languages[1][0])
-print('Most Edited File This Month:', most_edited_files(json_data['days'][num_days-31:num_days])[0][0])
+try:
+    most_edited_file_this_month = most_edited_files(json_data['days'][num_days-31:num_days])[0][0]
+except:
+    most_edited_file_this_month = "None"
+print('Most Edited File This Month:', most_edited_file_this_month)
 print('Weekend Coding Percentage: {0:.2f}%'.format(weekend_weekday_percentage(json_data['days'][num_days-31:num_days])*100))
 
 # Now generate HTML report
 parts = [
         ['header', ['Wakatime Report']],
-        ['big_num', ['Last Month Hours', total_time/(60*60)]]
+        ['big_num', ['Last Month Hours', last_month_hours]],
+        ['big_num', ['Mosted Edited File This Month', most_edited_file_this_month]]
         ]
 generator.build_report('wakatime_main', parts)
