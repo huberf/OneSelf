@@ -100,8 +100,11 @@ avg_all_years = avg_watchtime_all_years(data)
 
 year_avg_parts = []
 for i in avg_all_years.keys():
-    year_avg_parts += [ ['subheader', [i]], ['big_num', ['Average Watchtime Per Day', avg_all_years[i]['avg_all']]],
+    year_result = [ ['subheader', [i]], ['big_num', ['Average Watchtime Per Day', avg_all_years[i]['avg_all']]],
             ['big_num', ['Average TV Watchtime Per Day', avg_all_years[i]['avg_tv']]]]
+    generator.build_report('trakt/{0}report'.format(i), year_result)
+    year_avg_parts += year_result
+    year_avg_parts += [ ['link', 'trakt/{0}report.html'.format(i), '{0} Full Report'.format(i)] ]
 
 # Now generate HTML report
 parts = [
