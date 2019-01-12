@@ -59,6 +59,9 @@ def build_report(name, contents):
     open(file_name, 'w').write(contents)
 
 def check_figure_directory():
-    directory = 'html/figures'
+    check_html_directory('figures')
+
+def check_html_directory(dir_path):
+    directory = 'html/{0}'.format(dir_path)
     if not os.path.exists(directory):
         os.makedirs(directory)
