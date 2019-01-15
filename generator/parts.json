@@ -12,7 +12,7 @@
     "num_args": 1
   },
   "link": {
-    "html": "<a href=\"{0}\">{1}",
+    "html": "<a href=\"{0}\">{1}</a>",
     "num_args": 2
   },
   "big_num": {
