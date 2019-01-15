@@ -37,6 +37,13 @@ def is_within_days(date, days):
     else:
         return False
 
+def is_within_year(date, year):
+    # year is int (e.g. 2018)
+    if date.year == year:
+        return True
+    else:
+        return False
+
 # Counts days since the earliest val containing at least one tracked event
 def tracked_days(events, earliest_val):
     days = {}
