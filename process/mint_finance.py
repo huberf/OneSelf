@@ -44,7 +44,29 @@ def last_days_data(data, days):
         comp_date = datetime.datetime(day=int(day), month=int(month), year=int(year))
         if utils.is_within_days(comp_date, days):
             yield i
-    
+
+def data_for_year(data, year_val):
+    for i in data['transactions']:
+        comp_date = i['date']
+        day = comp_date.split('/')[1]
+        month = comp_date.split('/')[0]
+        year = comp_date.split('/')[2]
+        comp_date = datetime.datetime(day=int(day), month=int(month), year=int(year))
+        if utils.is_within_year(comp_date, year_val):
+            yield i
+
+def all_year_reports(data):
+    curr_year = datetime.datetime.now().year
+    to_return = {}
+    while curr_year > 2000:
+        year_data = { 'transactions': list(data_for_year(data, curr_year)) }
+        if len(data['transactions']) > 0:
+            to_return[curr_year] = {
+                    'spending': spending(year_data),
+                    'top_categories': top_category(year_data)
+                    }
+        curr_year -= 1
+    return to_return
 
 # By count or value
 def category_count(data, type='count'):
@@ -103,6 +125,9 @@ if __name__ == '__main__':
     print('Last month spending: ', last_month_spending)
     last_month_earnings = earnings(last_month_data)
     print('Last month earnings: ', last_month_earnings)
+    # Now do yearly reports
+    yearly_report_data = all_year_reports(data)
+    print(yearly_report_data)
     # Now generate HTML report
     parts = [
             ['header', ['Mint Finance Report']],
