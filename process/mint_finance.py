@@ -63,6 +63,7 @@ def all_year_reports(data):
         if len(data['transactions']) > 0:
             to_return[curr_year] = {
                     'spending': spending(year_data),
+                    'earnings': earnings(year_data),
                     'top_categories': top_category(year_data)
                     }
         curr_year -= 1
@@ -141,5 +142,5 @@ if __name__ == '__main__':
             ['big_num', ['Last month spendings', '$' + str(last_month_spending)]],
             ['big_num', ['Last month earnings', '$' + str(last_month_earnings)]]
             ]
-    parts += year_avg_parts
+    parts += years_parts
     generator.build_report('mint_main', parts)
