@@ -127,11 +127,19 @@ if __name__ == '__main__':
     print('Last month earnings: ', last_month_earnings)
     # Now do yearly reports
     yearly_report_data = all_year_reports(data)
-    print(yearly_report_data)
+    years_parts = []
+    for i in yearly_report_data.keys():
+        year_result = [ ['subheader', [i]], ['big_num', ['Spending', yearly_report_data[i]['spending']]],
+                ['big_num', ['Earnings', yearly_report_data[i]['earnings']]]]
+        generator.check_html_directory('mint')
+        generator.build_report('mint/{0}report'.format(i), year_result)
+        years_parts += year_result
+        years_parts += [ ['link', ['mint/{0}report.html'.format(i), '{0} Full Report'.format(i)]] ]
     # Now generate HTML report
     parts = [
             ['header', ['Mint Finance Report']],
             ['big_num', ['Last month spendings', '$' + str(last_month_spending)]],
             ['big_num', ['Last month earnings', '$' + str(last_month_earnings)]]
             ]
+    parts += year_avg_parts
     generator.build_report('mint_main', parts)
