@@ -132,6 +132,12 @@ if __name__ == '__main__':
     for i in yearly_report_data.keys():
         year_result = [ ['subheader', [i]], ['big_num', ['Spending', yearly_report_data[i]['spending']]],
                 ['big_num', ['Earnings', yearly_report_data[i]['earnings']]]]
+        if len(yearly_report_data[i]['top_categories']) >= 1:
+            year_result += [ ['big_num', ['Top Category',
+                yearly_report_data[i]['top_categories'][0],
+                ]]]
+        else:
+            year_result += [ ['big_num', ['Top Category', 'None']]]
         generator.check_html_directory('mint')
         generator.build_report('mint/{0}report'.format(i), year_result)
         years_parts += year_result
