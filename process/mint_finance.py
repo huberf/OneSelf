@@ -60,7 +60,7 @@ def all_year_reports(data):
     to_return = {}
     while curr_year > 2000:
         year_data = { 'transactions': list(data_for_year(data, curr_year)) }
-        if len(data['transactions']) > 0:
+        if len(year_data['transactions']) > 0:
             to_return[curr_year] = {
                     'spending': spending(year_data),
                     'earnings': earnings(year_data),
