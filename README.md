@@ -59,7 +59,7 @@ be viewed at
 Once setup, merely run `python3 sync/getLastfm.py`.
 
 
-### Trak.tv
+### Trakt.tv
 
 You need Trakt.tv VIP to do CSV exports. Once you have that, follow the below
 steps to collect the data.
@@ -82,11 +82,39 @@ The current implementation requires a manual export.
 3. To see interesting statistics and insights simply run `python3
    process/goodreads.py` from the root project directory.
 
+
+### Strava
+
+This requires some development experience as it directly uses the Strava API.
+You'll need to setup an API access account with Strava at
+[https://developers.strava.com/](https://developers.strava.com/). Then in
+`config.json` located in the root directory of this repo, edit the `strava`
+section to add your username, access_token, and runner_id (this is a number
+associated with your Strava account). You can find your `runner_id` by going to
+your profile page on Strava and looking at the URL to find the number at the
+very end. You are now ready to execute `python3 sync/getStrava.py`. Note:
+Everytime this runs, it will collect every single activity in your account with
+full GPS data so may take some time depending upon how many activities
+you have.
+Analysis scripts are coming soon, but feel free to design one yourself and
+submit it as a PR.
+
+
+### Garmin
+
+Unfortunately, the Garmin API is fairly closed off and currently, this project
+only supports acquiring summary details for your Garmin activities. To do this,
+go to
+[https://connect.garmin.com/modern/activities](https://connect.garmin.com/modern/activities)
+and scroll to the bottom. Continue scrolling until all activities are loaded.
+Then go back to the top, and click `Export CSV`. Put the exported CSV in the
+`records/` directory of this project titled `garmin-activities.csv`.
+You can now run the processing script `python3 process/garmin.py` to view data
+and generate reports.
+
 ### Coming soon(er or later)
-* Garmin
 * Nomie
 * Last.fm
-* Strava
 * RescueTime
 * Welltory
 * Moves
