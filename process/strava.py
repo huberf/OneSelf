@@ -3,6 +3,7 @@ import sys
 import datetime
 import json
 from os import path
+import numpy as np
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
 import utils
@@ -42,15 +43,26 @@ first = sum(avg_hrs[:split])/len(avg_hrs[:split])
 second = sum(avg_hrs[split:])/len(avg_hrs[split:])
 hr_change = second - first
 
+# Average time between GPS points
+time_spacings = []
+for i in json_data['activities']:
+    for j in range(0, len(i['time'])-1):
+        time_spacings += [i['time'][j+1] - i['time'][j]]
+avg_time_spacing = np.mean(time_spacings)
+std_time_spacing = np.std(time_spacings)
+
+
 activity_count = len(json_data['activities'])
 print('Activity Count:', activity_count)
 print('Lifetime Distance:', lifetime_distance)
 print('Lifetime HR Change:', hr_change)
+print('Avg GPS Time Spacing:', avg_time_spacing, '±', std_time_spacing)
 
 parts = [
         ['header', ['Strava Report']],
         ['big_num', ['Activity Count', activity_count]],
         ['big_num', ['Lifetime Distance', lifetime_distance]],
-        ['big_num', ['Lifetime HR Change', hr_change]]
+        ['big_num', ['Lifetime HR Change', hr_change]],
+        ['big_num', ['Avg. GPS Time Spacing', '{0}±{1}'.format(avg_time_spacing, std_time_spacing)]]
         ]
 generator.build_report('strava_main', parts)
