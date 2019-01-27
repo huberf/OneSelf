@@ -11,6 +11,8 @@ import generator
 
 config = loadConfig.getConfig()
 
+CONFIDENCE_LEVEL = 1.96 # 95% confidence
+
 # Load data
 try:
     json_data = utils.load_record_json('strava-data.json')
@@ -40,8 +42,11 @@ for i in json_data['activities']:
 hr_change = 0 # Change of first half of activities to next half
 split = int(len(avg_hrs)/2)
 first = sum(avg_hrs[:split])/len(avg_hrs[:split])
+first_std = np.std(avg_hrs[:split])
 second = sum(avg_hrs[split:])/len(avg_hrs[split:])
+second_std = np.std(avg_hrs[:split])
 hr_change = second - first
+hr_change_std = np.sqrt(first_std**2 + second_std**2)
 
 # Average time between GPS points
 time_spacings = []
@@ -55,14 +60,14 @@ std_time_spacing = np.std(time_spacings)
 activity_count = len(json_data['activities'])
 print('Activity Count:', activity_count)
 print('Lifetime Distance:', lifetime_distance)
-print('Lifetime HR Change:', hr_change)
-print('Avg GPS Time Spacing:', avg_time_spacing, '±', std_time_spacing)
+print('Lifetime HR Change:', hr_change, '±', hr_change_std*CONFIDENCE_LEVEL)
+print('Avg GPS Time Spacing:', avg_time_spacing, '±', std_time_spacing*CONFIDENCE_LEVEL)
 
 parts = [
         ['header', ['Strava Report']],
         ['big_num', ['Activity Count', activity_count]],
         ['big_num', ['Lifetime Distance', lifetime_distance]],
-        ['big_num', ['Lifetime HR Change', hr_change]],
-        ['big_num', ['Avg. GPS Time Spacing', '{0}±{1}'.format(avg_time_spacing, std_time_spacing)]]
+        ['big_num', ['Lifetime HR Change', '{0}±{1}'.format(hr_change, hr_change_std*CONFIDENCE_LEVEL)]],
+        ['big_num', ['Avg. GPS Time Spacing', '{0}±{1}'.format(avg_time_spacing, std_time_spacing*CONFIDENCE_LEVEL)]]
         ]
 generator.build_report('strava_main', parts)
