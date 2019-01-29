@@ -161,6 +161,35 @@ def recent_changes_report():
         print('{name} previous average: {avg}'.format(name=j, avg=average_pre[j]))
     pass
 
+def goals():
+    global events, trackers, TRACKER_ID_TO_NAME
+    global recent_trackers, daily_expected
+    year_goals = [{
+            'tracker': 'Push-ups',
+            'avg': 40 # Per day
+            }]
+    sums = {}
+    for i in events:
+        # Water work
+        for j in year_goals:
+            if tracker_id_to_name(i['tracker_id']) == j['tracker']:
+                log_time = i['time']
+                date = utils.timestamp_to_datetime(log_time, True)
+                val = int(i['value'])
+                current_year = datetime.datetime.now().year
+                days = (datetime.date.today() - datetime.date(current_year, 1, 1)).days
+                if date.year == current_year:
+                    try:
+                        sums[j['tracker']] += val
+                    except:
+                        sums[j['tracker']] = val
+    for i in sums.keys():
+        for j in year_goals:
+            if j['tracker'] == i:
+                print('Averaged {0} {1} compared to expected {2}'.format(
+                    sums[i]/days,i,j['avg']))
+
 # Now Show Report
 overview_report()
 recent_changes_report()
+goals()
