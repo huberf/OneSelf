@@ -26,5 +26,13 @@
   "image": {
     "html": "<img class=\"data_img\" src=\"{0}\" />",
     "num_args": 1
+  },
+  "progress_bar": {
+    "html": "<progress max=\"100\" value=\"{0}\">{0}%</progress>",
+    "num_args": 1
+  },
+  "completion_bar": {
+    "html": "<progress max=\"{1}\" value=\"{0}\">{0}/{1}</progress>",
+    "num_args": 2
   }
 }
