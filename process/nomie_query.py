@@ -5,6 +5,7 @@ from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
 import utils
+import generator
 
 ENUMERATE = False
 
@@ -161,9 +162,11 @@ def recent_changes_report():
         print('{name} previous average: {avg}'.format(name=j, avg=average_pre[j]))
     pass
 
+goal_parts = []
 def goals():
     global events, trackers, TRACKER_ID_TO_NAME
     global recent_trackers, daily_expected
+    global goal_parts
     year_goals = [{
             'tracker': 'Push-ups',
             'avg': 40 # Per day
@@ -188,8 +191,17 @@ def goals():
             if j['tracker'] == i:
                 print('Averaged {0} {1} compared to expected {2}'.format(
                     sums[i]/days,i,j['avg']))
+                goal_parts += [['subheader', ['{0} Goal Progress'.format(i)]],
+                        ['completion_bar', [sums[i]/days, j['avg']]]]
 
 # Now Show Report
 overview_report()
 recent_changes_report()
 goals()
+
+# Now generate HTML report
+parts = [
+        ['header', ['Nomie Report']],
+        ]
+parts += goal_parts
+generator.build_report('nomie_query_main', parts)
