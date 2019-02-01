@@ -17,8 +17,22 @@ except:
     print('Make sure you\'ve synced or exported your Nomie data')
     sys.exit()
 
-songs_recorded = len(json_data['data'])
+#songs_recorded = len(json_data['data'])
+songs_recorded = 0
+artist_hits = {}
+for i in json_data['data']:
+    songs_recorded += len(i)
+    for j in i:
+        artist = j['artist']['#text']
+        try:
+            artist_hits[artist] += 1
+        except:
+            artist_hits[artist] = 1
+
+print(artist_hits)
+
 print("Songs recorded: {0}".format(songs_recorded))
+
 
 # Now generate HTML report
 parts = [
