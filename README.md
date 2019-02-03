@@ -112,10 +112,19 @@ Then go back to the top, and click `Export CSV`. Put the exported CSV in the
 You can now run the processing script `python3 process/garmin.py` to view data
 and generate reports.
 
+
+### RescueTime
+
+Currently, the RescueTime API isn't supported (and without Premium only provides
+limited data access). Rather, one will need to go to the RescueTime data export
+page and request a full export of logged time at
+[https://www.rescuetime.com/accounts/your-data](https://www.rescuetime.com/accounts/your-data).
+Place the generated CSV file in the `records/` directory with the name
+`rescuetime-data.csv`.
+Full processing scripts and reports are coming soon.
+
 ### Coming soon(er or later)
 * Nomie
-* Last.fm
-* RescueTime
 * Welltory
 * Moves
 * Gyroscope
