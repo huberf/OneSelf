@@ -16,9 +16,25 @@ def load_data():
     for row in data_reader:
         record = { }
         for i,val in enumerate(keys):
-            record[val] = row[i]
+            if val == 'val':
+                record[val] = int(row[i])
+            else:
+                record[val] = row[i]
         records += [record]
     return { 'records': records }
 
 data = load_data()
-print(data)
+
+application_hits = {}
+# General Data Processing
+for i in data['records']:
+    try:
+        application_hits[i['name']] += i['val']
+    except:
+        application_hits[i['name']] = i['val']
+
+top_applications = sorted(application_hits.items(), key=lambda kv: kv[1])
+top_applications.reverse()
+
+print(top_applications[0])
+
