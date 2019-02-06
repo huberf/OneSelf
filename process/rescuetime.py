@@ -36,5 +36,12 @@ for i in data['records']:
 top_applications = sorted(application_hits.items(), key=lambda kv: kv[1])
 top_applications.reverse()
 
-print(top_applications[0])
+print('Generating report...')
+# Now generate HTML report
+parts = [
+        ['header', ['RescueTime Report']],
+        ['top3', ['Top Applications', top_applications[0][0], top_applications[1][0], top_applications[2][0]]],
+        ]
+generator.build_report('rescuetime_main', parts)
 
+print('Done.')
