@@ -14,7 +14,7 @@ config = loadConfig.getConfig()
 try:
     json_data = utils.load_record_json('lastfm-data.json')
 except:
-    print('Make sure you\'ve synced or exported your Nomie data')
+    print('Make sure you\'ve synced or exported your last.fm data')
     sys.exit()
 
 #songs_recorded = len(json_data['data'])
