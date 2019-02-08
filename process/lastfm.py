@@ -21,8 +21,10 @@ except:
 songs_recorded = 0
 artist_hits = {}
 song_hits = {}
+songs_per_day = {}
 for i in json_data['data']:
     songs_recorded += len(i)
+    date = utils.timestamp_to_datetime(j['date']['uts'])
     for j in i:
         artist = j['artist']['#text']
         try:
