@@ -22,10 +22,16 @@ songs_recorded = 0
 artist_hits = {}
 song_hits = {}
 songs_per_day = {}
+songs_per_year = {}
 for i in json_data['data']:
     songs_recorded += len(i)
-    date = utils.timestamp_to_datetime(j['date']['uts'])
     for j in i:
+        date = utils.timestamp_to_datetime(int(j['date']['uts']))
+        try:
+            songs_per_year[date.year] += 1
+        except:
+            songs_per_year[date.year] = 1
+
         artist = j['artist']['#text']
         try:
             artist_hits[artist] += 1
