@@ -42,6 +42,9 @@ for i in json_data['data']:
         except:
             song_hits[(j['name'], artist)] = 1
 
+top_years = sorted(songs_per_year.items(), key=lambda kv:kv[1])
+top_years.reverse()
+
 top_artists = sorted(artist_hits.items(), key=lambda kv: kv[1])
 top_artists.reverse()
 
@@ -60,6 +63,7 @@ print("Songs recorded: {0}".format(songs_recorded))
 parts = [
         ['header', ['Last.fm Report']],
         ['big_num', ['Songs recorded', songs_recorded]],
+        ['big_num', ['Top Year', top_years[0][0]]],
         ['top3', ['Top Artists', top_artists[0][0], top_artists[1][0], top_artists[2][0]]],
         ['top3', top_songs_html_info]
         ]
