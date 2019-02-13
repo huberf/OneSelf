@@ -123,6 +123,16 @@ Place the generated CSV file in the `records/` directory with the name
 `rescuetime-data.csv`.
 Full processing scripts and reports are coming soon.
 
+
+### Swarm (Foursquare)
+
+This sync method uses the Foursquare API, so the first step is to create an app
+in Foursquare's developer system in order to get an API key. Go to
+[https://foursquare.com/developers/register](https://foursquare.com/developers/register)
+and create an app with permission "Access to Check-In or User Data". You will
+now have a "Client ID" and "Client Secret". Modify `config.json` in the root of
+this project to include these keys.
+
 ### Coming soon(er or later)
 * Nomie
 * Welltory

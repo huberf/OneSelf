@@ -2,7 +2,7 @@
   "keys": {
     "myfitnesspal": {
       "username": "nhuberfeely",
-      "last_sync": "2018-07-10"
+      "last_sync": "2018-12-13"
     },
     "lastfm": {
       "username": "nhuberfeely"
@@ -11,6 +11,11 @@
       "username": "nhuberfeely",
       "access_token": "enter_your_own",
       "runner_id": "enter_your_own"
+    },
+    "foursquare": {
+      "client_id": "enter_your_own",
+      "client_secret": "enter_your_own",
+      "access_code": "enter_your_own"
     }
   }
 }
