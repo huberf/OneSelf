@@ -133,6 +133,20 @@ and create an app with permission "Access to Check-In or User Data". You will
 now have a "Client ID" and "Client Secret". Modify `config.json` in the root of
 this project to include these keys.
 
+Now you will need to get user authentication. The full steps are at
+[https://developer.foursquare.com/docs/api/configuration/authentication](https://developer.foursquare.com/docs/api/configuration/authentication)
+but all of this can be done manually. You will first need to enter
+`https://foursquare.com/oauth2/authenticate?client_id=YOUR_CLIENT_ID&response_type=code&redirect_uri=YOUR_REGISTERED_REDIRECT_URI`
+in your browser, replacing capitalized components with the corresponding
+information.
+
+Next, grab the `?code=CODE` section from the URL you are redirected to. And now
+finally visit, in your browser, `https://foursquare.com/oauth2/access_token?client_id=YOUR_CLIENT_ID&client_secret=YOUR_CLIENT_SECRET&grant_type=authorization_code&redirect_uri=YOUR_REGISTERED_REDIRECT_URI&code=CODE`
+once again replacing the capitalized parts with the correct information.
+
+Finally, from the JSON response, grab the access code and put the access code in
+`config.json` under `access_code` in the `foursquare` section.
+
 ### Coming soon(er or later)
 * Nomie
 * Welltory
