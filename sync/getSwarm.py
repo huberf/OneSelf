@@ -25,5 +25,5 @@ resp = requests.get(url=url, params=params)
 data = json.loads(resp.text)
 
 data_file = open('records/swarm-checkins.json', 'w')
-data_file.write(json.dumps(data))
+data_file.write(json.dumps(data['response']))
 data_file.close()
