@@ -16,10 +16,15 @@ except:
     print('Make sure you\'ve synced or exported your Swarm data')
     sys.exit()
 
-print('Total check-ins:', json_data['checkins']['count'])
+# Main processing loop
+for i,val in enumerate(json_data['checkins']['items']):
+    pass
+
+checkin_total = json_data['checkins']['count']
+print('Total check-ins:', checkin_total)
 
 parts = [
         ['header', ['Swarm Report']],
-        ['big_num', ['Check-in Count', json_data['checkins']['count']]]
+        ['big_num', ['Check-in Count', checkin_total]]
         ]
 generator.build_report('swarm_main', parts)
