@@ -16,9 +16,22 @@ except:
     print('Make sure you\'ve synced or exported your Swarm data')
     sys.exit()
 
+zipcode_count = {}
+
 # Main processing loop
 for i,val in enumerate(json_data['checkins']['items']):
+    try:
+        zipcode_count[val['venue']['location']['postalCode']] += 1
+    except:
+        try:
+            zipcode_count[val['venue']['location']['postalCode']] = 1
+        except:
+            pass # Doesn't have zipcode
     pass
+
+top_zipcodes = sorted(zipcode_count.items(), key=lambda kv:kv[1])
+top_zipcodes.reverse()
+print(top_zipcodes)
 
 checkin_total = json_data['checkins']['count']
 print('Total check-ins:', checkin_total)
