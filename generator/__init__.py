@@ -4,6 +4,25 @@ import os
 
 parts = json.loads(open('generator/parts.json', 'r').read())
 
+###########################
+# Specific Helper Methods #
+###########################
+def build_top3(name, features, depth=False):
+    parts = [name]
+    for i in range(0,3):
+        try:
+            if depth:
+                parts += [features[i][0]]
+            else:
+                parts += [features[i]]
+        except:
+            parts += ['None']
+    return ['top3', parts]
+
+
+###########################
+# General Methods         #
+###########################
 def build_index(report_list):
     ''' report_list is a list of the format [ ['Report Name', 'file_name'], ...]
     '''

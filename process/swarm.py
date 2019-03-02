@@ -31,13 +31,14 @@ for i,val in enumerate(json_data['checkins']['items']):
 
 top_zipcodes = sorted(zipcode_count.items(), key=lambda kv:kv[1])
 top_zipcodes.reverse()
-print(top_zipcodes)
+topzips_html = generator.build_top3('Top Zipcodes', top_zipcodes, True)
 
 checkin_total = json_data['checkins']['count']
 print('Total check-ins:', checkin_total)
 
 parts = [
         ['header', ['Swarm Report']],
-        ['big_num', ['Check-in Count', checkin_total]]
+        ['big_num', ['Check-in Count', checkin_total]],
+        topzips_html
         ]
 generator.build_report('swarm_main', parts)
