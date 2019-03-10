@@ -64,7 +64,7 @@ parts = [
         ['header', ['Last.fm Report']],
         ['big_num', ['Songs recorded', songs_recorded]],
         ['big_num', ['Top Year', top_years[0][0]]],
-        ['top3', ['Top Artists', top_artists[0][0], top_artists[1][0], top_artists[2][0]]],
+        generator.build_top3('Top Artists', top_artists),
         ['top3', top_songs_html_info]
         ]
 generator.build_report('lastfm_main', parts)
