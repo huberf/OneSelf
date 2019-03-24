@@ -18,6 +18,9 @@ except:
 
 zipcode_count = {}
 places_count = {}
+state_count = {}
+
+#print(json_data['checkins']['items'][0])
 
 # Main processing loop
 for i,val in enumerate(json_data['checkins']['items']):
@@ -30,6 +33,13 @@ for i,val in enumerate(json_data['checkins']['items']):
         except:
             pass # Doesn't have zipcode
     try:
+        state_count[val['venue']['location']['state']] += 1
+    except:
+        try:
+            state_count[val['venue']['location']['state']] = 1
+        except:
+            pass # Doesn't have state
+    try:
         places_count[val['venue']['name']] += 1
     except:
         try:
@@ -38,13 +48,14 @@ for i,val in enumerate(json_data['checkins']['items']):
             pass # Doesn't have name
     pass
 
-top_zipcodes = sorted(zipcode_count.items(), key=lambda kv:kv[1])
-top_zipcodes.reverse()
-topzips_html = generator.build_top3('Top Zipcodes', top_zipcodes, True)
+def get_top_entry(dictionary, name):
+    top = sorted(dictionary.items(), key=lambda kv:kv[1])
+    top.reverse()
+    return generator.build_top3(name, top, True)
 
-top_places = sorted(places_count.items(), key=lambda kv:kv[1])
-top_places.reverse()
-topplaces_html = generator.build_top3('Top Places', top_places, True)
+topzips_html = get_top_entry(zipcode_count, 'Top Zipcodes')
+topstates_html = get_top_entry(state_count, 'Top States')
+topplaces_html = get_top_entry(places_count, 'Top Places')
 
 checkin_total = json_data['checkins']['count']
 print('Total check-ins:', checkin_total)
@@ -53,6 +64,7 @@ parts = [
         ['header', ['Swarm Report']],
         ['big_num', ['Check-in Count', checkin_total]],
         topzips_html,
+        topstates_html,
         topplaces_html
         ]
 generator.build_report('swarm_main', parts)
