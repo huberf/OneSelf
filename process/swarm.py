@@ -23,6 +23,7 @@ except:
 
 zipcode_count = {}
 places_count = {}
+categories_count = {}
 state_count = {}
 
 #print(json_data['checkins']['items'][0])
@@ -51,6 +52,14 @@ for i,val in enumerate(json_data['checkins']['items']):
             places_count[val['venue']['name']] = 1
         except:
             pass # Doesn't have name
+    for cat in val['venue']['categories']:
+        try:
+            categories_count[cat['name']] += 1
+        except:
+            try:
+                categories_count[cat['name']] = 1
+            except:
+                pass # Doesn't have shortName
     if HAS_SENTIMENT:
         try:
             post_sentiment = sentiment.assess(val['shout'])
@@ -73,6 +82,7 @@ def get_top_entry(dictionary, name):
 topzips_html = get_top_entry(zipcode_count, 'Top Zipcodes')
 topstates_html = get_top_entry(state_count, 'Top States')
 topplaces_html = get_top_entry(places_count, 'Top Places')
+toptypes_html = get_top_entry(categories_count, 'Top Types')
 
 checkin_total = json_data['checkins']['count']
 print('Total check-ins:', checkin_total)
@@ -83,6 +93,7 @@ parts = [
         sentiment_html,
         topzips_html,
         topstates_html,
-        topplaces_html
+        topplaces_html,
+        toptypes_html
         ]
 generator.build_report('swarm_main', parts)
