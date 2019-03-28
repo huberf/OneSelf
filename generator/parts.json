@@ -23,6 +23,10 @@
     "html": "<h3>{0}</h3><ol><li>{1}</li><li>{2}</li><li>{3}</li></ol>",
     "num_args": 4
   },
+  "top3_count": {
+    "html": "<h3>{0}</h3><ol><li>{1} - {2}</li><li>{3} - {4}</li><li>{5} - {6}</li></ol>",
+    "num_args": 7
+  },
   "image": {
     "html": "<img class=\"data_img\" src=\"{0}\" />",
     "num_args": 1

@@ -19,6 +19,15 @@ def build_top3(name, features, depth=False):
             parts += ['None']
     return ['top3', parts]
 
+def build_top3_count(name, features):
+    parts = [name]
+    for i in range(0,3):
+        try:
+            parts += [features[i][0], features[i][1]]
+        except:
+            parts += ['None', 'N/A']
+    return ['top3_count', parts]
+
 
 ###########################
 # General Methods         #
