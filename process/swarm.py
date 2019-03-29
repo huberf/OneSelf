@@ -29,6 +29,7 @@ state_count = {}
 
 #print(json_data['checkins']['items'][0])
 
+mayorships = []
 shout_sentiments = []
 # Main processing loop
 for i,val in enumerate(json_data['checkins']['items']):
@@ -72,6 +73,11 @@ for i,val in enumerate(json_data['checkins']['items']):
             shout_sentiments += [post_sentiment['compound']]
         except KeyError:
             pass
+    if val['isMayor']:
+        try:
+            mayorships += [val['venue']['name']]
+        except KeyError:
+            pass # Has no name
 
 if HAS_SENTIMENT:
     avg_sentiment = sum(shout_sentiments)/len(shout_sentiments)
