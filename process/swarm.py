@@ -21,6 +21,7 @@ except:
     print('Make sure you\'ve synced or exported your Swarm data')
     sys.exit()
 
+year_count = {}
 zipcode_count = {}
 places_count = {}
 categories_count = {}
@@ -60,6 +61,11 @@ for i,val in enumerate(json_data['checkins']['items']):
                 categories_count[cat['name']] = 1
             except:
                 pass # Doesn't have shortName
+    date = utils.timestamp_to_datetime(int(val['createdAt']))
+    try:
+        year_count[date.year] += 1
+    except:
+        year_count[date.year] = 1
     if HAS_SENTIMENT:
         try:
             post_sentiment = sentiment.assess(val['shout'])
@@ -84,6 +90,10 @@ topstates_html = get_top_entry(state_count, 'Top States')
 topplaces_html = get_top_entry(places_count, 'Top Places')
 toptypes_html = get_top_entry(categories_count, 'Top Types')
 
+year_counts = []
+for i in year_count.keys():
+    year_counts += [['big_num', ['{0} Check-in Count'.format(i), year_count[i]]]]
+
 checkin_total = json_data['checkins']['count']
 print('Total check-ins:', checkin_total)
 
@@ -96,4 +106,5 @@ parts = [
         topplaces_html,
         toptypes_html
         ]
+parts += year_counts
 generator.build_report('swarm_main', parts)
