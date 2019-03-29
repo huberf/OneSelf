@@ -77,7 +77,7 @@ else:
 def get_top_entry(dictionary, name):
     top = sorted(dictionary.items(), key=lambda kv:kv[1])
     top.reverse()
-    return generator.build_top3(name, top, True)
+    return generator.build_top3_count(name, top)
 
 topzips_html = get_top_entry(zipcode_count, 'Top Zipcodes')
 topstates_html = get_top_entry(state_count, 'Top States')
