@@ -3,6 +3,7 @@
 import sys
 import datetime
 import json
+import csv
 from os import path
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
@@ -11,9 +12,11 @@ import generator
 
 config = loadConfig.getConfig()
 
+print('Loading data...')
+
 # LOAD SONG DATA
 try:
-    json_data = utils.load_record_json('lastfm-data.json')
+    song_data = utils.load_record_json('lastfm-data.json')
 except:
     print('Make sure you\'ve synced or exported your last.fm data')
     sys.exit()
@@ -35,7 +38,20 @@ def load_data():
     return { 'records': records }
 
 try:
-    data = load_data()
+    computer_data = load_data()
 except:
     print('Make sure you\'ve synced or exported your Rescuetime data')
     sys.exit()
+
+print('Data loaded. Beginning processing...')
+
+print('Indexing all data to hours...')
+computer_hours = {}
+for i in computer_data:
+    date = i['timestamp']
+    timestamp = datetime.datetime.strptime(date, "%Y-%m-%d %T %Z").timestamp
+    print(timestamp)
+song_hours = {}
+
+# IDEA: Box work into hours with songCount and workType
+hour_blocks = []
