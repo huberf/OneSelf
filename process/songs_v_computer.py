@@ -47,10 +47,13 @@ print('Data loaded. Beginning processing...')
 
 print('Indexing all data to hours...')
 computer_hours = {}
-for i in computer_data:
+for i in computer_data['records']:
     date = i['timestamp']
-    timestamp = datetime.datetime.strptime(date, "%Y-%m-%d %T %Z").timestamp
-    print(timestamp)
+    timestamp = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S %z").timestamp()
+    try:
+        computer_hours[timestamp] += [i]
+    except:
+        computer_hours[timestamp] = [i]
 song_hours = {}
 
 # IDEA: Box work into hours with songCount and workType
