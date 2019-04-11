@@ -1,6 +1,8 @@
 import json
 import sys
+import os
 from os import path
+import requests as r
 import datetime
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 import utils.loadConfig as loadConfig
@@ -9,9 +11,26 @@ from lastpy import extras
 
 config = loadConfig.getConfig()
 
+api_root = 'http://ws.audioscrobbler.com/2.0/'
+
 user_name = config['keys']['lastfm']['username']
 
-sync_back_days = 600
+sync_back_days = 1200
+
+def user_back_tracks(user_name, days_back=0, limit=200, page=1):
+    dayStart = datetime.datetime.today().replace(hour=0, minute=0, second=0, microsecond=0) + datetime.timedelta(days=-days_back)
+    dayStart = dayStart.strftime('%s')
+    resp = r.get(api_root + '?method=user.getrecenttracks&user=' + user_name + '&api_key=' + os.environ['LAST_FM_API'] + '&from=' + str(dayStart) + '&limit=' + str(limit) +'&format=json')
+    conts = json.loads(resp.text)
+    total_pages = conts['recenttracks']['@attr']['totalPages']
+    print('There are {0} pages to download'.format(total_pages))
+    tracks = []
+    for i in range(0, int(total_pages)):
+        print('Syncing page {0} of {1}'.format(i+1, total_pages))
+        resp = r.get(api_root + '?method=user.getrecenttracks&user=' + user_name + '&api_key=' + os.environ['LAST_FM_API'] + '&from=' + str(dayStart) + '&limit=' + str(limit) +'&page=' + str(i+1) +'&extended=1&format=json')
+        conts = json.loads(resp.text)
+        tracks += conts['recenttracks']['track']
+    return tracks
 
 def save(data):
     to_save = { 'data': data, 'lastsave': str(datetime.datetime.now()) }
@@ -21,11 +40,8 @@ def save(data):
 
 data = []
 
-for i in range(0, sync_back_days):
-    print('Saving day {0} of {1}'.format(i, sync_back_days))
-    back_days = sync_back_days - i
-    tracks = extras.user_daily_tracks(user_name, back_days)
-    data += tracks['recenttracks']['track']
+data = user_back_tracks(user_name, sync_back_days)
+print(data)
 
 print('Saving data...')
 save(data)
