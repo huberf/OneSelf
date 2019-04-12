@@ -27,9 +27,19 @@ def user_back_tracks(user_name, days_back=0, limit=200, page=1):
     tracks = []
     for i in range(0, int(total_pages)):
         print('Syncing page {0} of {1}'.format(i+1, total_pages))
-        resp = r.get(api_root + '?method=user.getrecenttracks&user=' + user_name + '&api_key=' + os.environ['LAST_FM_API'] + '&from=' + str(dayStart) + '&limit=' + str(limit) +'&page=' + str(i+1) +'&extended=1&format=json')
-        conts = json.loads(resp.text)
-        tracks += conts['recenttracks']['track']
+        downloaded = False
+        to_add = []
+        while not downloaded:
+            try:
+                resp = r.get(api_root + '?method=user.getrecenttracks&user=' + user_name + '&api_key=' + os.environ['LAST_FM_API'] + '&from=' + str(dayStart) + '&limit=' + str(limit) +'&page=' + str(i+1) +'&extended=1&format=json')
+                conts = json.loads(resp.text)
+                to_add = conts['recenttracks']['track']
+                downloaded = True # Quit the loop
+            except Exception as e:
+                print('Retrying after error {0}'.format(e))
+        tracks += to_add
+        # Backing up in case of crash
+        save(tracks)
     return tracks
 
 def save(data):
