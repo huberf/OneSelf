@@ -2,6 +2,11 @@ import sys
 import datetime
 import json
 from os import path
+import numpy as np
+import matplotlib.pyplot as plt
+from matplotlib.dates import DateFormatter
+from matplotlib.dates import HourLocator
+from matplotlib.dates import YearLocator
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
 import utils
@@ -84,6 +89,12 @@ top_songs_html_info = ['Top Songs',
 
 print("Songs recorded: {0}".format(songs_recorded))
 
+# Generate scrobbles per year graphic
+year_xs = np.arange(len(songs_per_year.keys()))
+plt.bar(year_xs, songs_per_year.values())
+plt.xticks(year_xs, songs_per_year.keys())
+plt.savefig('html/figures/lastfm_scrobble_years.png', dpi=200)
+plt.close()
 
 # Now generate HTML report
 parts = [
