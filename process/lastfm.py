@@ -14,6 +14,7 @@ import generator
 
 ENUMERATE = False
 
+print('Reading in data...')
 config = loadConfig.getConfig()
 
 try:
@@ -22,6 +23,7 @@ except:
     print('Make sure you\'ve synced or exported your last.fm data')
     sys.exit()
 
+print('Processing data...')
 songs_recorded = len(json_data['data'])
 #songs_recorded = 0
 artist_hits = {}
@@ -89,6 +91,8 @@ top_songs_html_info = ['Top Songs',
 
 print("Songs recorded: {0}".format(songs_recorded))
 
+print('Generating report...')
+
 # Generate scrobbles per year graphic
 year_xs = np.arange(len(songs_per_year.keys()))
 plt.bar(year_xs, songs_per_year.values())
@@ -104,6 +108,9 @@ parts = [
         ['big_num', ['Weekend Average Count', weekend_avg]],
         ['big_num', ['Weekday Average Count', weekday_avg]],
         generator.build_top3('Top Artists', top_artists),
-        ['top5', top_songs_html_info]
+        ['top5', top_songs_html_info],
+        ['subheader', ['Scrobbles Per Year']],
+        ['image', ['figures/lastfm_scrobble_years.png']]
         ]
 generator.build_report('lastfm_main', parts)
+print('Done.')
