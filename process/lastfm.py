@@ -30,6 +30,8 @@ artist_hits = {}
 song_hits = {}
 songs_per_day = {}
 songs_per_year = {}
+songs_per_month = {}
+songs_per_weekday = {}
 weekend_avg = 0
 weekend_count = 0
 weekday_avg = 0
@@ -52,6 +54,16 @@ for j in json_data['data']:
         songs_per_year[date.year] += 1
     except:
         songs_per_year[date.year] = 1
+
+    try:
+        songs_per_month[date.month] += 1
+    except:
+        songs_per_month[date.month] = 1
+
+    try:
+        songs_per_weekday[date.weekday()] += 1
+    except:
+        songs_per_weekday[date.weekday()] = 1
 
     try:
         artist = j['artist']['name']
@@ -100,6 +112,12 @@ plt.xticks(year_xs, songs_per_year.keys())
 plt.savefig('html/figures/lastfm_scrobble_years.png', dpi=200)
 plt.close()
 
+month_xs = np.arange(len(songs_per_month.keys()))
+plt.bar(month_xs, songs_per_month.values())
+plt.xticks(month_xs, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
+plt.savefig('html/figures/lastfm_scrobble_month.png', dpi=200)
+plt.close()
+
 # Now generate HTML report
 parts = [
         ['header', ['Last.fm Report']],
@@ -110,7 +128,9 @@ parts = [
         generator.build_top3('Top Artists', top_artists),
         ['top5', top_songs_html_info],
         ['subheader', ['Scrobbles Per Year']],
-        ['image', ['figures/lastfm_scrobble_years.png']]
+        ['image', ['figures/lastfm_scrobble_years.png']],
+        ['subheader', ['Scrobbles Per Month']],
+        ['image', ['figures/lastfm_scrobble_month.png']]
         ]
 generator.build_report('lastfm_main', parts)
 print('Done.')
