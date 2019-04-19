@@ -118,6 +118,12 @@ plt.xticks(month_xs, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'S
 plt.savefig('html/figures/lastfm_scrobble_month.png', dpi=200)
 plt.close()
 
+weekday_xs = np.arange(len(songs_per_weekday.keys()))
+plt.bar(weekday_xs, songs_per_weekday.values())
+plt.xticks(weekday_xs, ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
+plt.savefig('html/figures/lastfm_scrobble_weekday.png', dpi=200)
+plt.close()
+
 # Now generate HTML report
 parts = [
         ['header', ['Last.fm Report']],
@@ -130,7 +136,9 @@ parts = [
         ['subheader', ['Scrobbles Per Year']],
         ['image', ['figures/lastfm_scrobble_years.png']],
         ['subheader', ['Scrobbles Per Month']],
-        ['image', ['figures/lastfm_scrobble_month.png']]
+        ['image', ['figures/lastfm_scrobble_month.png']],
+        ['subheader', ['Scrobbles Per Weekday']],
+        ['image', ['figures/lastfm_scrobble_weekday.png']]
         ]
 generator.build_report('lastfm_main', parts)
 print('Done.')
