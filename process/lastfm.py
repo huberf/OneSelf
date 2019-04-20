@@ -23,6 +23,19 @@ except:
     print('Make sure you\'ve synced or exported your last.fm data')
     sys.exit()
 
+def data_from_range(start, end):
+    for j in json_data['data']:
+        date = utils.timestamp_to_datetime(int(j['date']['uts']))
+        if date > start and date < end:
+            yield j
+
+def data_current_year():
+    end = datetime.datetime.now()
+    #start = datetime.datetime.date(end.year, 1, 1)
+    start = datetime.datetime.now()
+    for j in data_from_range(start, end):
+        yield j
+
 print('Processing data...')
 songs_recorded = len(json_data['data'])
 #songs_recorded = 0
@@ -37,7 +50,8 @@ weekend_count = 0
 weekday_avg = 0
 weekday_count = 0
 last_day = None
-for j in json_data['data']:
+#for j in json_data['data']:
+for j in data_current_year():
     #songs_recorded += len(i)
     #for j in i:
     date = utils.timestamp_to_datetime(int(j['date']['uts']))
