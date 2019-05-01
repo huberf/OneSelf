@@ -1,6 +1,8 @@
 import sys
 from os import path
 import datetime
+import matplotlib.pyplot as plt
+import numpy as np
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 import utils
 import utils.loadConfig
@@ -38,6 +40,22 @@ def load_data():
             }
         record_data += [record]
     return { 'records': record_data }
+
+def avg_watchtimes(data, just_tv=False):
+    songs_per_weekday = {}
+    for i in data['records']:
+        if (not just_tv or i['type'] == 'episode'):
+            date_obj = datetime.datetime.strptime(i['watched_at'], '%Y-%m-%dT%H:%M:%SZ')
+            try:
+                songs_per_weekday[date_obj.weekday()] += i['runtime']
+            except:
+                songs_per_weekday[date_obj.weekday()] = i['runtime']
+    weekday_xs = np.arange(len(songs_per_weekday.keys()))
+    plt.bar(weekday_xs, songs_per_weekday.values())
+    plt.xticks(weekday_xs, ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
+    plt.savefig('html/figures/trakt_watchtime_weekday.png', dpi=200)
+    plt.close()
+
 
 def year_avg_watchtime(data, just_tv=False, year=None):
     current_year = datetime.datetime.now().year
@@ -87,6 +105,9 @@ def top_shows(data, mode='watchtime'):
     return sorted_list
 
 data = load_data()
+
+avg_watchtimes(data)
+
 val_year_avg_watchtime = year_avg_watchtime(data)
 print('Average Watchtime Per Day (Past Year): {0:.2f}'.format(val_year_avg_watchtime))
 val_year_avg_tv_watchtime = year_avg_watchtime(data, True)
@@ -113,4 +134,8 @@ parts = [
         ['top3', ['Top Shows', show_list[0][0], show_list[1][0], show_list[2][0]]]
         ]
 parts += year_avg_parts
+parts += [
+            ['subheader', ['Watchtime Per Weekday']],
+            ['image', ['figures/trakt_watchtime_weekday.png']]
+        ]
 generator.build_report('trakttv_main', parts)
