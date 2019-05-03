@@ -44,6 +44,7 @@ def load_data():
 def avg_watchtimes(data, just_tv=False):
     watchtime_per_weekday = {}
     watchtime_per_month = {}
+    watchtime_per_year = {}
     for i in data['records']:
         if (not just_tv or i['type'] == 'episode'):
             date_obj = datetime.datetime.strptime(i['watched_at'], '%Y-%m-%dT%H:%M:%SZ')
@@ -57,6 +58,11 @@ def avg_watchtimes(data, just_tv=False):
             except:
                 watchtime_per_month[date_obj.month] = i['runtime']
 
+            try:
+                watchtime_per_year[date_obj.year] += i['runtime']
+            except:
+                watchtime_per_year[date_obj.year] = i['runtime']
+
     weekday_xs = np.arange(len(watchtime_per_weekday.keys()))
     plt.bar(weekday_xs, watchtime_per_weekday.values())
     plt.xticks(weekday_xs, ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'])
@@ -67,6 +73,12 @@ def avg_watchtimes(data, just_tv=False):
     plt.bar(month_xs, watchtime_per_month.values())
     plt.xticks(month_xs, ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec'])
     plt.savefig('html/figures/trakt_watchtime_month.png', dpi=200)
+    plt.close()
+
+    year_xs = np.arange(len(watchtime_per_year.keys()))
+    plt.bar(year_xs, watchtime_per_year.values())
+    plt.xticks(year_xs, watchtime_per_year.keys())
+    plt.savefig('html/figures/trakt_watchtime_years.png', dpi=200)
     plt.close()
 
 
@@ -151,6 +163,8 @@ parts += [
             ['subheader', ['Watchtime Per Weekday']],
             ['image', ['figures/trakt_watchtime_weekday.png']],
             ['subheader', ['Watchtime Per Month']],
-            ['image', ['figures/trakt_watchtime_month.png']]
+            ['image', ['figures/trakt_watchtime_month.png']],
+            ['subheader', ['Watchtime Per Year']],
+            ['image', ['figures/trakt_watchtime_years.png']]
         ]
 generator.build_report('trakttv_main', parts)
