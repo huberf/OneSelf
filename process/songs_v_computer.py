@@ -51,7 +51,7 @@ computer_hours = {}
 for i in computer_data['records']:
     date = i['timestamp']
     date_obj = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S %z")
-    date_obj = date_obj.replace(minute=0, second=0)
+    date_obj = date_obj.replace(minute=0, second=0, microsecond=0)
     timestamp = int(date_obj.timestamp())
     try:
         computer_hours[timestamp] += [i]
@@ -61,12 +61,12 @@ song_hours = {}
 for i in song_data['data']:
     timestamp = i['date']['uts']
     date = datetime.datetime.utcfromtimestamp(float(timestamp))
-    date = date.replace(minute=0, second=0)
+    date = date.replace(minute=0, second=0, microsecond=0)
     hour_timestamp = date.timestamp()
     try:
-        song_hours[timestamp] += [i]
+        song_hours[hour_timestamp] += [i]
     except:
-        song_hours[timestamp] = [i]
+        song_hours[hour_timestamp] = [i]
 
 # IDEA: Box work into hours with songCount and workType
 print('Computer hour blocks: {0}'.format(len(computer_hours.keys())))
@@ -84,14 +84,11 @@ for i in song_hours.keys():
         computer_data = computer_hours[i]
         for comp in computer_data:
             block['computerScore'] += comp['val']
-        print('Found computer')
     except KeyError:
         pass
     block['songCount'] = len(song_hours[i])
     hour_blocks += [block]
 
-print(list(song_hours.keys())[0])
-print(list(computer_hours.keys())[0])
-
 relation = np.corrcoef(list(i['songCount'] for i in hour_blocks), list(i['computerScore'] for i in hour_blocks))
-print(relation)
+strength = relation[0][1]
+print('Strength of relation between count: {}'.format(strength))
