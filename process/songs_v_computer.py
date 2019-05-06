@@ -5,6 +5,7 @@ import datetime
 import json
 import csv
 from os import path
+import matplotlib.pyplot as plt
 import numpy as np
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
@@ -89,6 +90,19 @@ for i in song_hours.keys():
     block['songCount'] = len(song_hours[i])
     hour_blocks += [block]
 
-relation = np.corrcoef(list(i['songCount'] for i in hour_blocks), list(i['computerScore'] for i in hour_blocks))
+matched_song_count = list(i['songCount'] for i in hour_blocks)
+matched_computer_score = list(i['computerScore'] for i in hour_blocks)
+
+relation = np.corrcoef(matched_song_count, matched_computer_score)
 strength = relation[0][1]
 print('Strength of relation between count: {}'.format(strength))
+
+try:
+    choice = raw_input('Show graphs? [Y/N]: ')
+except NameError:
+    choice = input('Show graphs? [Y/N]: ')
+if len(choice) > 0 and (choice[0] == 'y' or choice[0] == 'Y'):
+    plt.scatter(matched_song_count, matched_computer_score)
+    plt.ylabel('Computer Score')
+    plt.xlabel('Soung Count')
+    plt.show()
