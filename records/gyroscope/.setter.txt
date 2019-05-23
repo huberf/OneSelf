@@ -1,0 +1,1 @@
+This file ensures this folder is added to Git

@@ -147,11 +147,26 @@ once again replacing the capitalized parts with the correct information.
 Finally, from the JSON response, grab the access code and put the access code in
 `config.json` under `access_code` in the `foursquare` section.
 
+
+### Gyroscope
+
+There is presently no public API so all data exports will be done by visiting
+[https://gyrosco.pe/export](gyroso.pe/export) and exporting desired metrics. To
+export, visit the link and export a report, saving it to disk. Without changing
+the name, place it in the `records/gyroscope/` folder. Some data such as HR is
+limited to the last month or other such ranges, so if there are multiple ones,
+place them in the same folder above except with different endings after the name
+Gyroscope gives the file (e.g. `gyroscope-Noah-hr-export.csv` to
+`gyroscope-Noah-hr-export(4).csv`). All processing scripts will load all files
+relating to the specific metric and collate them, removing duplicate entries in
+memory without modifying the actual record files.
+
+Processing scripts are still to be constructed...
+
 ### Coming soon(er or later)
 * Nomie
 * Welltory
 * Moves
-* Gyroscope
 
 ### Philosophy
 Health science and productivity are bound to improve when millions of
