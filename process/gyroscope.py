@@ -36,15 +36,31 @@ for i in hr_files:
         except KeyError:
             row_data = {
                     'time': row[0],
-                    'bpm': row[1],
+                    'bpm': int(row[1]),
                     'service': row[2]
                     }
             times_added[row[0]] = True
             hr_data += [row_data]
 
+################
+# Analyze Date #
+################
+lowest_hr = 250 # If this is too a cap, you are not a human
+highest_hr = 0 # Sorry, highest can't be negative
+for i in hr_data:
+    if i['bpm'] < lowest_hr:
+        lowest_hr = i['bpm']
+    if i['bpm'] > highest_hr:
+        highest_hr = i['bpm']
+
 print('Heart Rate Points: {0}'.format(len(hr_data)))
+print('Highest HR:', highest_hr)
+print('Lowest HR:', lowest_hr)
 
 parts = [
         ['header', ['Gyroscope Report']],
+        ['subheader', ['Heart Rate Analysis']],
+        ['big_num', ['Highest HR', highest_hr]],
+        ['big_num', ['Lowest HR', lowest_hr]]
         ]
 generator.build_report('gyroscope_main', parts)
