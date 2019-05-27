@@ -5,6 +5,7 @@ import csv
 import json
 from os import path
 import os
+import matplotlib.pyplot as plt
 sys.path.append( path.dirname( path.dirname( path.abspath(__file__) ) ) )
 from utils import loadConfig
 import utils
@@ -47,20 +48,35 @@ for i in hr_files:
 ################
 lowest_hr = 250 # If this is too a cap, you are not a human
 highest_hr = 0 # Sorry, highest can't be negative
+each_hr_count = {}
 for i in hr_data:
     if i['bpm'] < lowest_hr:
         lowest_hr = i['bpm']
     if i['bpm'] > highest_hr:
         highest_hr = i['bpm']
+    try:
+        each_hr_count[i['bpm']] += 1
+    except KeyError:
+        each_hr_count[i['bpm']] = 1
+
+avg_hr = sum(list(i['bpm'] for i in hr_data))/len(hr_data)
 
 print('Heart Rate Points: {0}'.format(len(hr_data)))
 print('Highest HR:', highest_hr)
 print('Lowest HR:', lowest_hr)
 
+plt.scatter(each_hr_count.keys(), each_hr_count.values())
+plt.xlabel('BPM')
+plt.ylabel('Count')
+plt.savefig('html/figures/gyroscope_hr_scatter.png', dpi=200)
+plt.close()
+
 parts = [
         ['header', ['Gyroscope Report']],
         ['subheader', ['Heart Rate Analysis']],
         ['big_num', ['Highest HR', highest_hr]],
-        ['big_num', ['Lowest HR', lowest_hr]]
+        ['big_num', ['Lowest HR', lowest_hr]],
+        ['big_num', ['Average HR', avg_hr]],
+        ['image', ['figures/gyroscope_hr_scatter.png']]
         ]
 generator.build_report('gyroscope_main', parts)
