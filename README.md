@@ -15,6 +15,17 @@ data collection is not guaranteed.
 The server can be found in `collection-server/server.py` and started by
 `python3 collection-server/server.py`
 
+## Generic Processing
+
+After setting up and syncing some services below, there are some general purpose
+processing scripts currently or in production to support your own analysis. Running `python3
+process/collators/hour_blocks.py` produces a sequence of csv files that contain
+two columns `timestamp` and `value` which are aggregate values for various
+metrics from connected services. These files can then be used to perform
+regression between values between data services.
+
+## Services
+
 ### MyFitnessPal
 1. Run `pip install myfitnesspal`.
 2. Set up your authentication information securely by running `myfitnesspal
