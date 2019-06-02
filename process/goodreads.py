@@ -65,7 +65,10 @@ def avg_page_count(books):
     count = 0
     pages = 0
     for i in books:
-        pages += int(i['number_of_pages'])
+        try:
+            pages += int(i['number_of_pages'])
+        except ValueError: # Doesn't have a page count
+            pass # Do nothing
         count += 1
     if count > 0:
         return float(pages) / count
@@ -79,13 +82,17 @@ book_count = len(data['books'])
 print('Books Read: {0}'.format(book_count))
 this_year_book_count = books_in_past_year(data['books'])
 print('Books in Past Year: {0}'.format(this_year_book_count))
-print('Avg Page Count: {0:.1f}'.format(avg_page_count(data['books'])))
-print('Projected Year Count: {0:.0f}'.format(projected_reading(data['books'])))
+my_avg_page_count = avg_page_count(data['books'])
+print('Avg Page Count: {0:.1f}'.format(my_avg_page_count))
+my_projected_reading = projected_reading(data['books'])
+print('Projected Year Count: {0:.0f}'.format(my_projected_reading))
 
 # Now generate HTML report
 parts = [
         ['header', ['Goodreads Report']],
         ['big_num', ['Books Read', book_count]],
-        ['big_num', ['Books in Past Year', this_year_book_count]]
+        ['big_num', ['Books in Past Year', this_year_book_count]],
+        ['big_num', ['Average Page Count', my_avg_page_count]],
+        ['big_num', ['Projected Year Count', my_projected_reading]]
         ]
 generator.build_report('goodreads_main', parts)
