@@ -26,21 +26,30 @@ def load_data():
 data = load_data()
 
 application_hits = {}
+type_hits = {}
 # General Data Processing
 for i in data['records']:
     try:
         application_hits[i['name']] += i['val']
     except:
         application_hits[i['name']] = i['val']
+    try:
+        type_hits[i['type']] += i['val']
+    except:
+        type_hits[i['type']] = i['val']
 
 top_applications = sorted(application_hits.items(), key=lambda kv: kv[1])
 top_applications.reverse()
+
+top_types = sorted(type_hits.items(), key=lambda kv: kv[1])
+top_types.reverse()
 
 print('Generating report...')
 # Now generate HTML report
 parts = [
         ['header', ['RescueTime Report']],
         ['top3', ['Top Applications', top_applications[0][0], top_applications[1][0], top_applications[2][0]]],
+        ['top3', ['Top Types', top_types[0][0], top_types[1][0], top_types[2][0]]]
         ]
 generator.build_report('rescuetime_main', parts)
 
