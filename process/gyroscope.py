@@ -19,8 +19,9 @@ all_export_files = os.listdir('records/gyroscope/')
 # Load all day HR data
 hr_files = []
 for i in all_export_files:
-    beginning_indicator = 'gyroscope-Noah-hr-export'
-    if i[:len(beginning_indicator)] == beginning_indicator:
+    #beginning_indicator = 'gyroscope-Noah-hr-export'
+    name_parts = i.split('-')
+    if name_parts[0] == 'gyroscope' and len(i) > 4 and name_parts[2] == 'hr' and name_parts[3][:6] == 'export':
         hr_files += [i]
 hr_data = []
 times_added = {}
