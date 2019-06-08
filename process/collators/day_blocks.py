@@ -162,6 +162,7 @@ try:
     json_data = utils.load_record_json('myfitnesspal-food.json')
     day_data = json_data['data']
     calorie_days = {}
+    carb_days = {}
     for i in day_data:
         date = i['date']
         date_obj = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
@@ -174,25 +175,40 @@ try:
                 calorie_days[timestamp] = [i['day']['totals']['calories']]
             except:
                 calorie_days[timestamp] = [0]
+        try:
+            carb_days[timestamp] += [i['day']['totals']['carbohydrates']]
+        except:
+            try:
+                carb_days[timestamp] = [i['day']['totals']['carbohydrates']]
+            except:
+                carb_days[timestamp] = [0]
     day_blocks = []
     for i in calorie_days.keys():
         block = {
                 'timestamp': i,
-                'calorieCount': 0
+                'calories': 0,
+                'carbs': 0
                 }
         try:
             calorie_data = calorie_days[i]
             for comp in calorie_data:
-                block['calorieCount'] += comp
+                block['calories'] += comp
+        except KeyError:
+            pass
+        try:
+            carb_data = carb_days[i]
+            for comp in carb_data:
+                block['carbs'] += comp
         except KeyError:
             pass
         day_blocks += [block]
-    csv_contents = ''
-    for i in day_blocks:
-        csv_contents += '{0},{1}\n'.format(i['timestamp'], i['calorieCount'])
-    out_file = open('aggregates/day_blocks_calorie_sum.csv', 'w')
-    out_file.write(csv_contents)
-    out_file.close()
+    for metric in ['calories', 'carbs']:
+        csv_contents = ''
+        for i in day_blocks:
+            csv_contents += '{0},{1}\n'.format(i['timestamp'], i[metric])
+        out_file = open('aggregates/day_blocks_{0}_sum.csv'.format(metric), 'w')
+        out_file.write(csv_contents)
+        out_file.close()
 except FileNotFoundError:
     print('Not set up.')
 
