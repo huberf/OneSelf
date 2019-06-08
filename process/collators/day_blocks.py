@@ -157,4 +157,43 @@ out_file = open('aggregates/day_blocks_gyroscope_avg_hr.csv', 'w')
 out_file.write(csv_contents)
 out_file.close()
 
+print('MyFitnessPal...')
+try:
+    json_data = utils.load_record_json('myfitnesspal-food.json')
+    day_data = json_data['data']
+    calorie_days = {}
+    for i in day_data:
+        date = i['date']
+        date_obj = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+        date_obj = date_obj.replace(hour=0, minute=0, second=0, microsecond=0)
+        timestamp = int(date_obj.timestamp())
+        try:
+            calorie_days[timestamp] += [i['day']['totals']['calories']]
+        except:
+            try:
+                calorie_days[timestamp] = [i['day']['totals']['calories']]
+            except:
+                calorie_days[timestamp] = [0]
+    day_blocks = []
+    for i in calorie_days.keys():
+        block = {
+                'timestamp': i,
+                'calorieCount': 0
+                }
+        try:
+            calorie_data = calorie_days[i]
+            for comp in calorie_data:
+                block['calorieCount'] += comp
+        except KeyError:
+            pass
+        day_blocks += [block]
+    csv_contents = ''
+    for i in day_blocks:
+        csv_contents += '{0},{1}\n'.format(i['timestamp'], i['calorieCount'])
+    out_file = open('aggregates/day_blocks_calorie_sum.csv', 'w')
+    out_file.write(csv_contents)
+    out_file.close()
+except FileNotFoundError:
+    print('Not set up.')
+
 print('Done.')
