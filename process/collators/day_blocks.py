@@ -19,6 +19,7 @@ def check_aggregates_directory():
 
 check_aggregates_directory()
 
+'''
 print('Last.fm...')
 try:
     song_data = utils.load_record_json('lastfm-data.json')
@@ -156,53 +157,49 @@ for i in day_blocks:
 out_file = open('aggregates/day_blocks_gyroscope_avg_hr.csv', 'w')
 out_file.write(csv_contents)
 out_file.close()
+'''
 
 print('MyFitnessPal...')
 try:
     json_data = utils.load_record_json('myfitnesspal-food.json')
+    METRICS = ['calories', 'carbohydrates', 'fat']
     day_data = json_data['data']
     calorie_days = {}
-    carb_days = {}
+    nutrition_days = {
+            'calories': {},
+            'carbohydrates': {},
+            'fat': {}
+            }
     for i in day_data:
         date = i['date']
         date_obj = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
         date_obj = date_obj.replace(hour=0, minute=0, second=0, microsecond=0)
         timestamp = int(date_obj.timestamp())
-        try:
-            calorie_days[timestamp] += [i['day']['totals']['calories']]
-        except:
+        for metric in METRICS:
             try:
-                calorie_days[timestamp] = [i['day']['totals']['calories']]
+                nutrition_days[metric][timestamp] += [i['day']['totals'][metric]]
             except:
-                calorie_days[timestamp] = [0]
-        try:
-            carb_days[timestamp] += [i['day']['totals']['carbohydrates']]
-        except:
-            try:
-                carb_days[timestamp] = [i['day']['totals']['carbohydrates']]
-            except:
-                carb_days[timestamp] = [0]
+                try:
+                    nutrition_days[metric][timestamp] = [i['day']['totals'][metric]]
+                except:
+                    nutrition_days[metric][timestamp] = [0]
     day_blocks = []
-    for i in calorie_days.keys():
+    for i in nutrition_days['calories'].keys():
         block = {
                 'timestamp': i,
                 'calories': 0,
-                'carbs': 0
+                'carbohydrates': 0,
+                'fat': 0
                 }
-        try:
-            calorie_data = calorie_days[i]
-            for comp in calorie_data:
-                block['calories'] += comp
-        except KeyError:
-            pass
-        try:
-            carb_data = carb_days[i]
-            for comp in carb_data:
-                block['carbs'] += comp
-        except KeyError:
-            pass
+        for metric in METRICS:
+            try:
+                nutrition_data = nutrition_days[metric][i]
+                for comp in nutrition_data:
+                    block[metric] += comp
+            except KeyError:
+                pass
         day_blocks += [block]
-    for metric in ['calories', 'carbs']:
+    for metric in METRICS:
         csv_contents = ''
         for i in day_blocks:
             csv_contents += '{0},{1}\n'.format(i['timestamp'], i[metric])
