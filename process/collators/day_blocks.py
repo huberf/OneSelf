@@ -19,7 +19,6 @@ def check_aggregates_directory():
 
 check_aggregates_directory()
 
-'''
 print('Last.fm...')
 try:
     song_data = utils.load_record_json('lastfm-data.json')
@@ -157,18 +156,20 @@ for i in day_blocks:
 out_file = open('aggregates/day_blocks_gyroscope_avg_hr.csv', 'w')
 out_file.write(csv_contents)
 out_file.close()
-'''
 
 print('MyFitnessPal...')
 try:
     json_data = utils.load_record_json('myfitnesspal-food.json')
-    METRICS = ['calories', 'carbohydrates', 'fat']
+    METRICS = ['calories', 'carbohydrates', 'fat', 'protein', 'sodium', 'sugar']
     day_data = json_data['data']
     calorie_days = {}
     nutrition_days = {
             'calories': {},
             'carbohydrates': {},
-            'fat': {}
+            'fat': {},
+            'protein': {},
+            'sodium': {},
+            'sugar': {}
             }
     for i in day_data:
         date = i['date']
@@ -189,7 +190,10 @@ try:
                 'timestamp': i,
                 'calories': 0,
                 'carbohydrates': 0,
-                'fat': 0
+                'fat': 0,
+                'protein': 0,
+                'sodium': 0,
+                'sugar': 0
                 }
         for metric in METRICS:
             try:
