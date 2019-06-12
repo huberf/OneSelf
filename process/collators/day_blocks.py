@@ -213,4 +213,72 @@ try:
 except FileNotFoundError:
     print('Not set up.')
 
+print('Garmin...')
+def load_garmin_data():
+    data_file = utils.load_file('garmin-activities.csv')
+    data_reader = csv.reader(data_file)
+    transaction_data = []
+    first_row = True
+    activities = []
+    for row in data_reader:
+        if first_row:
+            first_row = False
+            continue
+        # Keys: Activity Type,Date,Favorite,Title,Distance,Calories,Time,Avg HR,Max HR,Avg Run Cadence,Max Run Cadence,Avg Pace,Best Pace,Elev Gain,Elev Loss,Avg Stride Length,Avg Vertical Ratio,Avg Vertical Oscillation,
+        # Training Stress Score®,Grit,Flow,Total Strokes,Avg. Swolf,Avg Stroke Rate,Bottom Time,Min Water Temp,Surface Interval,Decompression
+        keys = [
+                'type', 'date', 'favorite', 'title', 'distance', 'calories',
+                'time', 'avg_hr', 'max_hr', 'avg_cadence', 'max_cadence',
+                'avg_pace', 'best_pace', 'elev_gain', 'elev_loss', 'avg_stride_length',
+                'avg_vertical_ratio', 'avg_vertical_oscillation', 'training_stress_score',
+                'grit', 'flow', 'total_strokes', 'avg_swolf', 'avg_stroke_rate',
+                'bottom_time', 'min_water_temp', 'surface_interval', 'decompression'
+                ]
+        activity = { }
+        for i,val in enumerate(keys):
+            activity[val] = row[i]
+        activities += [activity]
+    return { 'activities': activities }
+try:
+    activity_data = load_garmin_data()
+    acitivity_days = {}
+    for i in activity_data['activities']:
+        date = i['date']
+        date_obj = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
+        date_obj = date_obj.replace(hour=0, minute=0, second=0, microsecond=0)
+        timestamp = int(date_obj.timestamp())
+        try:
+            activity_days[timestamp] += [i]
+        except:
+            activity_days[timestamp] = [i]
+    day_blocks = []
+    for i in activity_days.keys():
+        block = {
+                'timestamp': i,
+                'calories': 0,
+                'avg_hr': 0,
+                'distance': 0,
+                'avg_cadence': 0,
+                'elev_gain': 0
+                }
+        try:
+            activity_data = activity_days[i]
+            for comp in activity_data:
+                block['calories'] += comp['calories']
+                block['avg_hr'] += comp['avg_hr']
+                block['distance'] += comp['distance']
+                block['avg_cadence'] += comp['avg_cadence']
+                block['elev_gain'] += comp['elev_gain']
+        except KeyError:
+            pass
+        day_blocks += [block]
+    csv_contents = ''
+    for i in day_blocks:
+        csv_contents += '{0},{1}\n'.format(i['timestamp'], i['calories'])
+    out_file = open('aggregates/day_blocks_garmin_calories_sum.csv', 'w')
+    out_file.write(csv_contents)
+    out_file.close()
+except FileNotFoundError:
+    print('Not set up.')
+
 print('Done.')
