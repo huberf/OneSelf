@@ -241,7 +241,8 @@ def load_garmin_data():
     return { 'activities': activities }
 try:
     activity_data = load_garmin_data()
-    acitivity_days = {}
+    METRICS = ['calories', 'avg_hr', 'distance', 'avg_cadence', 'elev_gain']
+    activity_days = {}
     for i in activity_data['activities']:
         date = i['date']
         date_obj = datetime.datetime.strptime(date, "%Y-%m-%d %H:%M:%S")
@@ -264,20 +265,26 @@ try:
         try:
             activity_data = activity_days[i]
             for comp in activity_data:
-                block['calories'] += comp['calories']
-                block['avg_hr'] += comp['avg_hr']
-                block['distance'] += comp['distance']
-                block['avg_cadence'] += comp['avg_cadence']
-                block['elev_gain'] += comp['elev_gain']
+                block['calories'] += float(comp['calories'].replace(',', ''))
+                if not comp['avg_hr'] == '--':
+                    block['avg_hr'] += float(comp['avg_hr'])
+                block['distance'] += float(comp['distance'].replace(',', ''))
+                if not comp['avg_cadence'] == '--':
+                    block['avg_cadence'] += float(comp['avg_cadence'])
+                if not comp['elev_gain'] == '--':
+                    block['elev_gain'] += float(comp['elev_gain'].replace(',', ''))
+            block['avg_hr'] /= len(activity_data)
+            block['avg_cadence'] /= len(activity_data)
         except KeyError:
             pass
         day_blocks += [block]
-    csv_contents = ''
-    for i in day_blocks:
-        csv_contents += '{0},{1}\n'.format(i['timestamp'], i['calories'])
-    out_file = open('aggregates/day_blocks_garmin_calories_sum.csv', 'w')
-    out_file.write(csv_contents)
-    out_file.close()
+    for j in METRICS:
+        csv_contents = ''
+        for i in day_blocks:
+            csv_contents += '{0},{1}\n'.format(i['timestamp'], i[j])
+        out_file = open('aggregates/day_blocks_garmin_{0}.csv'.format(j), 'w')
+        out_file.write(csv_contents)
+        out_file.close()
 except FileNotFoundError:
     print('Not set up.')
 
