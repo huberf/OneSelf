@@ -7,44 +7,51 @@ print('These are the files you can compare:')
 for i,val in enumerate(all_aggregates):
     print('{0}: {1}'.format(i, val))
 print()
-print('Select two files to regress by inputing their number from the list above.')
-select1 = int(input('Metric 1: '))
-select2 = int(input('Metric 2: '))
+while True:
+    print('Select two files to regress by inputing their number from the list above.')
+    select1 = int(input('Metric 1: '))
+    select2 = int(input('Metric 2: '))
 
-file1 = all_aggregates[select1]
-file2 = all_aggregates[select2]
+    file1 = all_aggregates[select1]
+    file2 = all_aggregates[select2]
 
-conts1 = open('aggregates/' + file1).read()
-conts2 = open('aggregates/' + file2).read()
+    conts1 = open('aggregates/' + file1).read()
+    conts2 = open('aggregates/' + file2).read()
 
-map1 = {}
-map2 = {}
+    map1 = {}
+    map2 = {}
 
-for i in conts1.split('\n'):
-    if len(i) > 0:
-        metrics = i.split(',')
-        map1[metrics[0]] = float(metrics[1])
-for i in conts2.split('\n'):
-    if len(i) > 0:
-        metrics = i.split(',')
-        map2[metrics[0]] = float(metrics[1])
+    for i in conts1.split('\n'):
+        if len(i) > 0:
+            metrics = i.split(',')
+            map1[metrics[0]] = float(metrics[1])
+    for i in conts2.split('\n'):
+        if len(i) > 0:
+            metrics = i.split(',')
+            map2[metrics[0]] = float(metrics[1])
 
-x = []
-y = []
+    x = []
+    y = []
 
-IGNORE_ZEROS = True
-if IGNORE_ZEROS:
-    # TODO: Add inference logic
-    for i in map1.keys():
-        try:
-            val2 = map2[i]
-            x += [map1[i]]
-            y += [val2]
-        except:
-            pass
-    pass
-else:
-    print('Mode not supported yet')
+    IGNORE_ZEROS = True
+    if IGNORE_ZEROS:
+        # TODO: Add inference logic
+        for i in map1.keys():
+            try:
+                val2 = map2[i]
+                x += [map1[i]]
+                y += [val2]
+            except:
+                pass
+    else:
+        print('Mode not supported yet')
 
-print(x)
-print(y)
+    # now do regression
+    if len(x) > 0:
+        slope, intercept, r_value, p_value, std_err = stats.linregress(x,y)
+        print('Slope: {0}'.format(slope))
+        print('Intercept: {0}'.format(intercept))
+        print('R Value: {0}'.format(r_value))
+    else:
+        print('There was no data connected.')
+    print()
