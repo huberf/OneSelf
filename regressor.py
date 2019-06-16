@@ -1,5 +1,6 @@
 import os
 from scipy import stats
+import matplotlib.pyplot as plt
 import numpy as np
 
 all_aggregates = os.listdir('aggregates/')
@@ -37,8 +38,12 @@ while True:
     if IGNORE_ZEROS:
         # TODO: Add inference logic
         for i in map1.keys():
+            if map1[i] == 0:
+                continue
             try:
                 val2 = map2[i]
+                if val2 == 0:
+                    continue
                 x += [map1[i]]
                 y += [val2]
             except:
@@ -55,3 +60,13 @@ while True:
     else:
         print('There was no data connected.')
     print()
+
+    try:
+        choice = raw_input('Show graphs? [Y/N]: ')
+    except NameError:
+        choice = input('Show graphs? [Y/N]: ')
+    if len(choice) > 0 and (choice[0] == 'y' or choice[0] == 'Y'):
+        plt.scatter(x, y)
+        plt.ylabel(file2)
+        plt.xlabel(file1)
+        plt.show()
