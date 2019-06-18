@@ -82,6 +82,15 @@ steps to collect the data.
    habits.
 
 
+### Apple Health
+
+In the Apple Health app, go to settings. Download your data to your computer
+(emailing it may be easiest). Then copy the export.xml file over to `records/`
+with the name `apple-export.xml`.
+
+Processing scripts to be added.
+
+
 ### Goodreads
 
 The current implementation requires a manual export.
