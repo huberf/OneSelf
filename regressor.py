@@ -31,6 +31,18 @@ while True:
             metrics = i.split(',')
             map2[metrics[0]] = float(metrics[1])
 
+    REMOVE_OUTLIERS = True
+    if REMOVE_OUTLIERS:
+        for currMap in [map1, map2]:
+            values = list(currMap.values())
+            avg = sum(values)/len(values)
+            std = np.std(values)
+            THRESHOLD = 3 # 3 standard deviations is considered to be an outlier
+            for i in list(currMap.keys()):
+                if abs((currMap[i] - avg)/std) > THRESHOLD:
+                    currMap.pop(i, None)
+
+
     x = []
     y = []
 
