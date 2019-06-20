@@ -75,6 +75,16 @@ def avg_page_count(books):
     else:
         return 0
 
+def top_authors(books):
+    author_map = {}
+    for i in books:
+        try:
+            author_map[books['author']] += 1
+        except:
+            author_map[books['author']] = 1
+    sorted_list = sorted(author_map.items(), key=lambda kv: kv[1])
+    sorted_list.reverse()
+    return sorted_list
 
 
 data = load_data()
