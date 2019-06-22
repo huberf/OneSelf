@@ -79,13 +79,12 @@ def top_authors(books):
     author_map = {}
     for i in books:
         try:
-            author_map[books['author']] += 1
+            author_map[i['author']] += 1
         except:
-            author_map[books['author']] = 1
+            author_map[i['author']] = 1
     sorted_list = sorted(author_map.items(), key=lambda kv: kv[1])
     sorted_list.reverse()
     return sorted_list
-
 
 data = load_data()
 book_count = len(data['books'])
@@ -96,6 +95,7 @@ my_avg_page_count = avg_page_count(data['books'])
 print('Avg Page Count: {0:.1f}'.format(my_avg_page_count))
 my_projected_reading = projected_reading(data['books'])
 print('Projected Year Count: {0:.0f}'.format(my_projected_reading))
+author_list = top_authors(data['books'])
 
 # Now generate HTML report
 parts = [
@@ -103,6 +103,7 @@ parts = [
         ['big_num', ['Books Read', book_count]],
         ['big_num', ['Books in Past Year', this_year_book_count]],
         ['big_num', ['Average Page Count', my_avg_page_count]],
-        ['big_num', ['Projected Year Count', my_projected_reading]]
+        ['big_num', ['Projected Year Count', my_projected_reading]],
+        generator.build_top3_count('Top Authors', author_list)
         ]
 generator.build_report('goodreads_main', parts)
