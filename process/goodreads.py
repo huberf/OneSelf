@@ -86,6 +86,11 @@ def top_authors(books):
     sorted_list.reverse()
     return sorted_list
 
+def rating_count(books):
+    count = 0
+    for i in books:
+        print(i['my_rating'])
+
 data = load_data()
 book_count = len(data['books'])
 print('Books Read: {0}'.format(book_count))
@@ -96,6 +101,7 @@ print('Avg Page Count: {0:.1f}'.format(my_avg_page_count))
 my_projected_reading = projected_reading(data['books'])
 print('Projected Year Count: {0:.0f}'.format(my_projected_reading))
 author_list = top_authors(data['books'])
+my_rating_count = rating_count(data['books'])
 
 # Now generate HTML report
 parts = [
@@ -105,5 +111,6 @@ parts = [
         ['big_num', ['Average Page Count', my_avg_page_count]],
         ['big_num', ['Projected Year Count', my_projected_reading]],
         generator.build_top3_count('Top Authors', author_list)
+        ['big_num', ['Total Ratings', my_rating_count]]
         ]
 generator.build_report('goodreads_main', parts)
