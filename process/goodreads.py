@@ -89,7 +89,9 @@ def top_authors(books):
 def rating_count(books):
     count = 0
     for i in books:
-        print(i['my_rating'])
+        if not i['my_rating'] == 0:
+            count += 1
+    return count
 
 data = load_data()
 book_count = len(data['books'])
@@ -110,7 +112,7 @@ parts = [
         ['big_num', ['Books in Past Year', this_year_book_count]],
         ['big_num', ['Average Page Count', my_avg_page_count]],
         ['big_num', ['Projected Year Count', my_projected_reading]],
-        generator.build_top3_count('Top Authors', author_list)
+        generator.build_top3_count('Top Authors', author_list),
         ['big_num', ['Total Ratings', my_rating_count]]
         ]
 generator.build_report('goodreads_main', parts)
