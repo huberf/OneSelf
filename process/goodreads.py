@@ -91,12 +91,12 @@ def rating_stats(books):
     positive_rating_count = 0
     negative_rating_count = 0
     for i in books:
-        if not i['my_rating'] == 0:
+        if not int(i['my_rating']) == 0:
             count += 1
-        elif i['my_rating'] < 3:
-            negative_rating_count += 1
-        elif i['my_rating'] > 3:
-            positive_rating_count += 1
+            if int(i['my_rating']) < 3:
+                negative_rating_count += 1
+            elif int(i['my_rating']) > 3:
+                positive_rating_count += 1
     return (count, positive_rating_count, negative_rating_count)
 
 data = load_data()
