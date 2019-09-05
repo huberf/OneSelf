@@ -7,18 +7,24 @@ DEBUG = False
 
 log_file = open('records/keylogs.csv', 'a')
 
+last_event = time.time()
+collected_events = []
+
+def save_press(key):
+    line = '{0},{1}\n'.format(time.time(), key)
+    log_file.write(line)
+
 def on_press(key):
     try:
         if DEBUG:
             print('alphanumeric key {0} pressed'.format(
                 key.char))
-        line = '{0},{1}\n'.format(time.time(), key.char)
+        save_press(line, key.char)
     except AttributeError:
         if DEBUG:
             print('special key {0} pressed'.format(
                 key))
-        line = '{0},{1}\n'.format(time.time(), key)
-    log_file.write(line)
+        save_press(key)
 
 def on_release(key):
     if DEBUG:
