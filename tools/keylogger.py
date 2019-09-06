@@ -1,6 +1,7 @@
 # This keylogger attempts to give useful insights into keyboard use
 
 from pynput import keyboard
+from threading import Timer
 import time
 
 DEBUG = False
@@ -8,10 +9,24 @@ DEBUG = False
 log_file = open('records/keylogs.csv', 'a')
 
 last_event = time.time()
+MAX_PRESS_TIME = 0.5 # 0.5 seconds wait needed before save occurs
 collected_events = []
+scheduled_timer = None
 
 def save_press(key):
-    line = '{0},{1}\n'.format(time.time(), key)
+    global scheduled_timer
+    collected_events += [key]
+    if scheduled_timer and not scheduled_timer.finished.is_set():
+        scheduled_timer.cancel()
+    scheduled_timer = Timer(MAX_PRESS_TIME, _full_key_save)
+    scheduled_timer.start()
+
+def _full_key_save():
+    global collected_events
+    keys = ''
+    for i in collected_events:
+        keys += i
+    line = '{0},{1}\n'.format(time.time(), keys)
     log_file.write(line)
 
 def on_press(key):
