@@ -1,0 +1,5 @@
+{
+  "username": "<YOUR_GARMIN_USERNAME>",
+  "failure_url": "<URL_TO_GET_IF_UNDER_STEP_GOAL>",
+  "success_url": "<URL_TO_GET_IF_MET_STEP_GOAL>"
+}
